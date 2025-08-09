@@ -3,6 +3,7 @@
 #include "funcoes.h"
 #include "cores.h"
 #include <string.h>
+#include<time.h>
 
 
 // FUNÇÕES ADVERSAS
@@ -19,6 +20,10 @@ char conversorMM(char letra){
 
     return letra;
 
+}
+
+void limparTerminal(void){
+    system("clear");
 }
 
 //TUDO RELACIONADO AO MENU
@@ -75,6 +80,7 @@ char lerMenu(void){
         
 
     }
+    limparTerminal();
     return answer;
 
 
@@ -137,6 +143,7 @@ Mat novoJogo(void){
 
     escolha.n = choice;
     escolha.m = choice;
+    limparTerminal();
     return escolha;
 
 
@@ -144,10 +151,6 @@ Mat novoJogo(void){
     
 }
 
-//TUDO RELACIONADO AO JOGO
-void jogo(int **matriz, Mat valores){
-    imprimeMatriz(matriz, valores);
-}
 
 
 //TUDO RELACIONADO A MATRIZ
@@ -177,8 +180,21 @@ void liberaMatriz(int **matriz, int n){
 }
 
 void imprimeMatriz(int **matriz, Mat valores){
+    char letras[6] = {'A', 'B', 'C', 'D', 'E', 'F'};
+    int num[6] = {1, 2, 3, 4, 5, 6};
+    int cont = 0;
+    printf("     ");
+    for(int i=0; i< (valores.m* 4); i++){
+        if(i % 4 == 0){
+            printf("%d", num[cont]);
+            cont++;
+        }else{
+            printf(" ");
+        }
+        
+    }
 
-    printf(TAB_TL);
+    printf("\n   "TAB_TL);
     for(int i=1; i< (valores.m* 4); i++){
         if(i % 4 == 0){
             printf(TAB_TJ);
@@ -191,17 +207,18 @@ void imprimeMatriz(int **matriz, Mat valores){
     printf(TAB_TR "\n");
 
     for(int i =0; i< valores.n; i++){
-
+        printf(" %c ", letras[i]);
         for(int j =0; j< valores.m; j++){
 
             printf(TAB_VER);
+            
             impressaoPersonalizada(matriz[i][j]);
             
         }
         printf(TAB_VER);
 
         if(i < valores.n - 1){
-            printf("\n");
+            printf("\n   ");
             printf(TAB_ML);
             for(int z = 1; z < (valores.m)*4 ; z++){
                 if(z % 4 == 0){
@@ -216,7 +233,7 @@ void imprimeMatriz(int **matriz, Mat valores){
         }
 
     }
-    printf("\n"TAB_BL);
+    printf("\n   "TAB_BL);
     for(int i=1; i< (valores.m*4); i++){
         if(i % 4 == 0){
             printf(TAB_BJ);

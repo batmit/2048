@@ -2,9 +2,8 @@
 #include<stdlib.h>
 #include "../include/funcoes.h"
 
-
 int main(){
-
+    int **matriz;
     while(1){
         
         char answer = imprimeMenu();
@@ -15,9 +14,10 @@ int main(){
                 break;
             case 'N':
                 Mat choice = novoJogo();
-                int **matriz = criaMatriz(choice);
+                User usuario_novo = {"New_User", 0, 0, 0};
+                matriz = criaMatriz(choice);
                 inicializaMatriz(matriz, choice);
-                jogo(matriz, choice);
+                jogo(matriz, choice, usuario_novo);
 
 
                 liberaMatriz(matriz, choice.n);
