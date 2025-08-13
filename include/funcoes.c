@@ -4,7 +4,7 @@
 #include "cores.h"
 #include <string.h>
 #include<time.h>
-
+#include<math.h>
 
 // FUNÇÕES ADVERSAS
 void limpar_buffer(void){
@@ -246,13 +246,13 @@ void imprimeMatriz(int **matriz, Mat valores){
 
 }
 
-void inicializaMatriz(int **matriz, Mat valores){
+void inicializaMatriz(int **matriz, Mat valores, int valor){
 
     for(int i =0; i< valores.n; i++){
 
         for(int j =0; j< valores.m; j++){
 
-            matriz[i][j] = 0;            
+            matriz[i][j] = valor;            
 
         }
 

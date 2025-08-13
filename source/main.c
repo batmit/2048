@@ -1,6 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include "../include/funcoes.h"
+#include<time.h>
+#include<math.h>
 
 int main(){
     int **matriz;
@@ -16,7 +18,7 @@ int main(){
                 Mat choice = novoJogo();
                 User usuario_novo = {"New_User", 0, 0, 0};
                 matriz = criaMatriz(choice);
-                inicializaMatriz(matriz, choice);
+                inicializaMatriz(matriz, choice, 0);
                 jogo(matriz, choice, usuario_novo);
 
 

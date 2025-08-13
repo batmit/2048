@@ -33,13 +33,14 @@ Mat novoJogo(void);
 //jogo(no arquivo jogar)
 void jogo(int **matriz, Mat valores, User usuario);
 void imprimeCabecalho(User cabecalho);
-int posicoesLivres(int **matriz, Mat valores);
+int posicoesLivres(int **matriz, Mat valores, int **posicoesLivresMat);
+int sorteiaN(int **matriz, Mat valores, int **posicoesLivresMat);
 
 //matriz
 int **criaMatriz(Mat valores);
 void liberaMatriz(int **matriz, int n);
 void imprimeMatriz(int **matriz, Mat valores);
-void inicializaMatriz(int **matriz, Mat valores);
+void inicializaMatriz(int **matriz, Mat valores, int valor);
 void impressaoPersonalizada(int n);
 
 #endif
