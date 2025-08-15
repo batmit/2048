@@ -201,6 +201,7 @@ void imprimeMatriz(int **matriz, Mat valores){
         }else{
             printf(TAB_HOR);
 
+
         }
         
     }
@@ -282,8 +283,12 @@ void impressaoPersonalizada(int n){
         printf(WHITE(BG_RED(" 64")));
     }else if(n == 128){
         printf(BLACK(BG_GREEN("128")));
-    }else if(n >= 256){
-        printf(WHITE(BG_YELLOW("256")));
+    }else if(n == 256 ){
+        printf(WHITE(BG_CYAN("256")));
+    }else if(n == 512){
+        printf(BLUE(BG_RED("512")));
+    }else{
+        printf("%d", n);
     }
 
 }

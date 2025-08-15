@@ -19,7 +19,7 @@ int main(){
                 User usuario_novo = {"New_User", 0, 0, 0};
                 matriz = criaMatriz(choice);
                 inicializaMatriz(matriz, choice, 0);
-                jogo(matriz, choice, usuario_novo);
+                jogo(matriz, choice, &usuario_novo);
 
 
                 liberaMatriz(matriz, choice.n);

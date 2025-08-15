@@ -8,23 +8,97 @@
 
 
 
-void jogo(int **matriz, Mat valores, User usuario){
-    int **posicoesLivresMat;
+void jogo(int **matriz, Mat valores, User *usuario){
+    int **posicoesLivresMat, sair = 0;
     Mat posicoesLivresStruct = {valores.n*valores.n, 3};
     srand(time(NULL));
-
+    char comando[20];
 
     posicoesLivresMat = criaMatriz(posicoesLivresStruct);
     inicializaMatriz(posicoesLivresMat, posicoesLivresStruct, 37);
-    
+    if(posicoesLivres(matriz, valores, posicoesLivresMat) == valores.n*valores.n){
+        sorteiaN(matriz, valores, posicoesLivresMat);
+    }
 
-    while(!sorteiaN(matriz, valores, posicoesLivresMat)){
+    while(posicoesLivres(matriz, valores, posicoesLivresMat) != 0){
+        limparTerminal();
         //IMPRESSÃO
-        imprimeCabecalho(usuario);
+        sorteiaN(matriz, valores, posicoesLivresMat);
+        imprimeCabecalho(*usuario);
         printf("\n");
         imprimeMatriz(matriz, valores);
 
-    }
+        while(1){
+            printf("\n<a, d, s, w> - <u> - <t pos1, pos2>\nV(Voltar ao menu inicial)\n: ");
+            fgets(comando, 20, stdin);
+            comando[0] = conversorMM(comando[0]);
+            if(comando[0] == 'W'){
+                if(jogarparaCima(matriz, valores, usuario) == 1){
+                    limparTerminal();
+                    printf(BOLD(RED("\nERRO\nJogada inválida\n")));
+                    imprimeMatriz(matriz, valores);
+                }else{
+                    break;
+                }
+            }else if(comando[0] == 'V'){
+                sair = 1;
+                break;
+            }else if(comando[0] == 'A'){
+                if(jogarparaEsquerda(matriz, valores, usuario) == 1){
+                    limparTerminal();
+                    printf(BOLD(RED("\nERRO\nJogada inválida\n")));
+                    imprimeMatriz(matriz, valores);
+                }else{
+                    break;
+                }
+            }else if(comando[0] == 'S'){
+                if(jogarparaBaixo(matriz, valores, usuario) == 1){
+                    limparTerminal();
+                    printf(BOLD(RED("\nERRO\nJogada inválida\n")));
+                    imprimeMatriz(matriz, valores);
+                }else{
+                    break;
+                }
+            }else if(comando[0] == 'D'){
+                if(jogarparaDireita(matriz, valores, usuario) == 1){
+                    limparTerminal();
+                    printf(BOLD(RED("\nERRO\nJogada inválida\n")));
+                    imprimeMatriz(matriz, valores);
+                }else{
+                    break;
+                }                
+            }else if(comando[0] == 'T'){
+                printf("T");
+                break;
+            }else if(comando[0] == 'U'){
+                printf("U");
+                break;
+            }else{
+                limparTerminal();
+                printf(BOLD(RED("\nERRO\nValor digitado não está na lista de funções\n")));
+                imprimeMatriz(matriz, valores);
+
+
+            }
+
+            if(sair){
+                break;
+            }
+
+
+
+                
+            }
+
+            if(sair){
+                break;
+            }
+
+
+        }
+
+
+        
 
     
     liberaMatriz(posicoesLivresMat, posicoesLivresStruct.n);
@@ -111,4 +185,270 @@ int sorteiaN(int **matriz, Mat valores, int **posicoesLivresMat){
 
 
 
+}
+
+
+int jogarparaCima(int **matriz, Mat valores, User *usuario){
+
+    int cont = 0;
+    int **valoresReservados;
+    valoresReservados = criaMatriz(valores);
+
+    inicializaMatriz(valoresReservados, valores, 0);
+
+    for(int i = 1; i < valores.n; i++){
+        for(int j = 0; j < valores.m; j++){
+
+            if(matriz[i][j] != 0 && matriz[i-1][j] == 0)
+            {
+                matriz[i-1][j] = matriz[i][j];
+                matriz[i][j] = 0;
+                if(valoresReservados[i][j] != 0 && valoresReservados[i-1][j] == 0){
+                    valoresReservados[i-1][j] = valoresReservados[i][j];
+                    valoresReservados[i][j] = 0;
+                }
+
+                j = 0; 
+                i = 1;
+                cont ++;
+                if(matriz[i][j] != 0 && matriz[i-1][j] == 0){
+                    matriz[i-1][j] = matriz[i][j];
+                    matriz[i][j] = 0;
+                    if(valoresReservados[i][j] != 0 && valoresReservados[i-1][j] == 0){
+                        valoresReservados[i-1][j] = valoresReservados[i][j];
+                        valoresReservados[i][j] = 0;
+                    }
+                    cont++;
+                }else if(matriz[i][j] == matriz[i -1][j] && matriz[i][j] != 0 && valoresReservados[i-1][j] == 0 && valoresReservados[i][j] == 0){
+                    matriz[i-1][j] = matriz[i][j] * 2;
+                    if(matriz[i-1][j] == 512){
+                        usuario->trades++;
+                    }else if(matriz[i-1][j] == 256){
+                        usuario->undoMoves++;
+                    }
+                    matriz[i][j] = 0;
+                    valoresReservados[i -1 ][j] = 1;
+                    cont++;
+                }
+            }else if(matriz[i][j] == matriz[i -1][j] && matriz[i][j] != 0 && valoresReservados[i-1][j] == 0 && valoresReservados[i][j] == 0){
+                matriz[i-1][j] = matriz[i][j] * 2;
+                if(matriz[i-1][j] == 512){
+                    usuario->trades++;
+                }else if(matriz[i-1][j] == 256){
+                    usuario->undoMoves++;
+                }
+                matriz[i][j] = 0;   
+                valoresReservados[i-1][j] = 1;
+                i = 1;
+                j = 0;
+                cont++;
+            }
+            
+
+        }
+    }
+    liberaMatriz(valoresReservados, valores.n);
+    if (cont == 0){
+        printf(BOLD(RED("Jogada inválida")));
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+int jogarparaBaixo(int **matriz, Mat valores, User *usuario){
+
+
+    int cont = 0;
+    int **valoresReservados;
+    valoresReservados = criaMatriz(valores);
+
+    inicializaMatriz(valoresReservados, valores, 0);
+
+    for(int i = (valores.n-2); i >= 0; i--){
+        for(int j = 0; j < valores.m; j++){
+
+            if(matriz[i][j] != 0 && matriz[i+1][j] == 0)
+            {
+                matriz[i+1][j] = matriz[i][j];
+                matriz[i][j] = 0;
+                if(valoresReservados[i][j]!=0 && valoresReservados[i+1][j] == 0){
+                    valoresReservados[i+1][j] = valoresReservados[i][j];
+                    valoresReservados[i][j] = 0;
+                }
+
+                j = 0; 
+                i = valores.n-2;
+                cont ++;
+                if(matriz[i][j] != 0 && matriz[i+1][j] == 0){
+                    matriz[i+1][j] = matriz[i][j];
+                    matriz[i][j] = 0;
+                    cont++;
+                }else if(matriz[i][j] == matriz[i +1][j] && matriz[i][j] != 0 && valoresReservados[i][j] == 0 && valoresReservados[i+1][j] == 0){
+                    matriz[i+1][j] = matriz[i][j] * 2;
+                    if(matriz[i+1][j] == 512){
+                        usuario->trades++;
+                    }else if(matriz[i+1][j] == 256){
+                        usuario->undoMoves++;
+                    }
+                    matriz[i][j] = 0;
+                    valoresReservados[i+1][j] = 1;
+                    cont++;
+                }
+            }else if(matriz[i][j] == matriz[i +1][j] && matriz[i][j] != 0 && valoresReservados[i][j] == 0 && valoresReservados[i+1][j] == 0){
+                matriz[i+1][j] = matriz[i][j] * 2;
+                if(matriz[i+1][j] == 512){
+                    usuario->trades++;
+                }else if(matriz[i+1][j] == 256){
+                    usuario->undoMoves++;
+                }
+                matriz[i][j] = 0;
+                valoresReservados[i+1][j] = 1;
+                i = valores.n-2;
+                j = 0;
+                cont++;
+            }
+            
+
+        }
+    }
+    liberaMatriz(valoresReservados, valores.n);
+    if (cont == 0){
+        printf(BOLD(RED("Jogada inválida")));
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+
+
+int jogarparaDireita(int **matriz, Mat valores, User *usuario){
+
+    int cont = 0;
+    int **valoresReservados;
+    valoresReservados = criaMatriz(valores);
+
+    inicializaMatriz(valoresReservados, valores, 0);
+
+    for(int i = 0; i < valores.n; i++){
+        for(int j = (valores.m-2); j >= 0; j--){
+
+            if(matriz[i][j] != 0 && matriz[i][j+1] == 0)
+            {
+                matriz[i][j+1] = matriz[i][j];
+                matriz[i][j] = 0;
+
+                if(valoresReservados[i][j] != 0 && valoresReservados[i][j+1] == 0){
+                    valoresReservados[i][j+1] = valoresReservados[i][j];
+                    valoresReservados[i][j] = 0;
+                }
+
+                j = valores.m-2; 
+                i = 0;
+                cont ++;
+                if(matriz[i][j] != 0 && matriz[i][j+1] == 0){
+                    matriz[i][j+1] = matriz[i][j];
+                    matriz[i][j] = 0;
+                    cont++;
+                }else if(matriz[i][j] == matriz[i][j+1] && matriz[i][j] != 0 && valoresReservados[i][j] == 0 && valoresReservados[i][j+1] == 0){
+                    matriz[i][j+1] = matriz[i][j] * 2;
+                    if(matriz[i][j+1] == 512){
+                        usuario->trades++;
+                    }else if(matriz[i][j+1] == 256){
+                        usuario->undoMoves++;
+                    }
+                    matriz[i][j] = 0;
+                    valoresReservados[i][j+1] = 1;
+                    cont++;
+                }
+            }else if(matriz[i][j] == matriz[i][j+1] && matriz[i][j] != 0 && valoresReservados[i][j] == 0 && valoresReservados[i][j+1] == 0){
+                matriz[i][j+1] = matriz[i][j] * 2;
+                if(matriz[i][j+1] == 512){
+                    usuario->trades++;
+                }else if(matriz[i][j+1] == 256){
+                    usuario->undoMoves++;
+                }
+                matriz[i][j] = 0;
+                valoresReservados[i][j+1] = 1;
+                i = 0;
+                j = valores.m-2;
+                cont++;
+            }
+            
+
+        }
+    }
+    liberaMatriz(valoresReservados, valores.n);
+    if (cont == 0){
+        printf(BOLD(RED("Jogada inválida")));
+        return 1;
+    }else{
+        return 0;
+    }
+}
+
+int jogarparaEsquerda(int **matriz, Mat valores, User *usuario){
+
+    int cont = 0;
+    int **valoresReservados;
+    valoresReservados = criaMatriz(valores);
+
+    inicializaMatriz(valoresReservados, valores, 0);
+
+    for(int i = 0; i < valores.n; i++){
+        for(int j = 1; j < valores.m; j++){
+
+            if(matriz[i][j] != 0 && matriz[i][j-1] == 0)
+            {
+                matriz[i][j-1] = matriz[i][j];
+                matriz[i][j] = 0;
+
+                if(valoresReservados[i][j] != 0 && valoresReservados[i][j-1] == 0){
+                    valoresReservados[i][j-1] = valoresReservados[i][j];
+                    valoresReservados[i][j] = 0;
+                }
+
+                j = 1; 
+                i = 0;
+                cont ++;
+                if(matriz[i][j] != 0 && matriz[i][j-1] == 0){
+                    matriz[i][j-1] = matriz[i][j];
+                    matriz[i][j] = 0;
+                    cont++;
+                }else if(matriz[i][j] == matriz[i][j-1] && matriz[i][j] != 0 && valoresReservados[i][j] == 0 && valoresReservados[i][j-1] == 0){
+                    matriz[i][j-1] = matriz[i][j] * 2;
+                    if(matriz[i][j-1] == 512){
+                        usuario->trades++;
+                    }else if(matriz[i][j-1] == 256){
+                        usuario->undoMoves++;
+                    }
+                    matriz[i][j] = 0;
+                    valoresReservados[i][j-1] = 1;
+                    cont++;
+                }
+            }else if(matriz[i][j] == matriz[i][j-1] && matriz[i][j] != 0 && valoresReservados[i][j] == 0 && valoresReservados[i][j-1] == 0){
+                matriz[i][j-1] = matriz[i][j] * 2;
+                if(matriz[i][j-1] == 512){
+                    usuario->trades++;
+                }else if(matriz[i][j-1] == 256){
+                    usuario->undoMoves++;
+                }
+                matriz[i][j] = 0;
+                valoresReservados[i][j-1] = 1;
+                i = 0;
+                j = 1;
+                cont++;
+            }
+            
+
+        }
+    }
+    liberaMatriz(valoresReservados, valores.n);
+    if (cont == 0){
+        printf(BOLD(RED("Jogada inválida")));
+        return 1;
+    }else{
+        return 0;
+    }
 }

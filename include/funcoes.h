@@ -31,10 +31,14 @@ void sairJogo(void);
 Mat novoJogo(void);
 
 //jogo(no arquivo jogar)
-void jogo(int **matriz, Mat valores, User usuario);
+void jogo(int **matriz, Mat valores, User *usuario);
 void imprimeCabecalho(User cabecalho);
 int posicoesLivres(int **matriz, Mat valores, int **posicoesLivresMat);
 int sorteiaN(int **matriz, Mat valores, int **posicoesLivresMat);
+int jogarparaCima(int**mat, Mat valores, User *usuario);
+int jogarparaBaixo(int **matriz, Mat valores, User *usuario);
+int jogarparaDireita(int **matriz, Mat valores, User *usuario);
+int jogarparaEsquerda(int **matriz, Mat valores, User *usuario);
 
 //matriz
 int **criaMatriz(Mat valores);
