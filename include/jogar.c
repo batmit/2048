@@ -226,6 +226,8 @@ int jogarparaCima(int **matriz, Mat valores, User *usuario){
                     }else if(matriz[i-1][j] == 256){
                         usuario->undoMoves++;
                     }
+                    usuario->score+= matriz[i-1][j];
+
                     matriz[i][j] = 0;
                     valoresReservados[i -1 ][j] = 1;
                     cont++;
@@ -237,6 +239,7 @@ int jogarparaCima(int **matriz, Mat valores, User *usuario){
                 }else if(matriz[i-1][j] == 256){
                     usuario->undoMoves++;
                 }
+                usuario->score+= matriz[i-1][j];
                 matriz[i][j] = 0;   
                 valoresReservados[i-1][j] = 1;
                 i = 1;
@@ -283,6 +286,10 @@ int jogarparaBaixo(int **matriz, Mat valores, User *usuario){
                 if(matriz[i][j] != 0 && matriz[i+1][j] == 0){
                     matriz[i+1][j] = matriz[i][j];
                     matriz[i][j] = 0;
+                    if(valoresReservados[i][j]!=0 && valoresReservados[i+1][j] == 0){
+                        valoresReservados[i+1][j] = valoresReservados[i][j];
+                        valoresReservados[i][j] = 0;
+                    }
                     cont++;
                 }else if(matriz[i][j] == matriz[i +1][j] && matriz[i][j] != 0 && valoresReservados[i][j] == 0 && valoresReservados[i+1][j] == 0){
                     matriz[i+1][j] = matriz[i][j] * 2;
@@ -291,6 +298,7 @@ int jogarparaBaixo(int **matriz, Mat valores, User *usuario){
                     }else if(matriz[i+1][j] == 256){
                         usuario->undoMoves++;
                     }
+                    usuario->score+= matriz[i+1][j];
                     matriz[i][j] = 0;
                     valoresReservados[i+1][j] = 1;
                     cont++;
@@ -302,6 +310,8 @@ int jogarparaBaixo(int **matriz, Mat valores, User *usuario){
                 }else if(matriz[i+1][j] == 256){
                     usuario->undoMoves++;
                 }
+                usuario->score+= matriz[i+1][j];
+
                 matriz[i][j] = 0;
                 valoresReservados[i+1][j] = 1;
                 i = valores.n-2;
@@ -350,6 +360,10 @@ int jogarparaDireita(int **matriz, Mat valores, User *usuario){
                 if(matriz[i][j] != 0 && matriz[i][j+1] == 0){
                     matriz[i][j+1] = matriz[i][j];
                     matriz[i][j] = 0;
+                    if(valoresReservados[i][j] != 0 && valoresReservados[i][j+1] == 0){
+                        valoresReservados[i][j+1] = valoresReservados[i][j];
+                        valoresReservados[i][j] = 0;
+                    }
                     cont++;
                 }else if(matriz[i][j] == matriz[i][j+1] && matriz[i][j] != 0 && valoresReservados[i][j] == 0 && valoresReservados[i][j+1] == 0){
                     matriz[i][j+1] = matriz[i][j] * 2;
@@ -358,6 +372,7 @@ int jogarparaDireita(int **matriz, Mat valores, User *usuario){
                     }else if(matriz[i][j+1] == 256){
                         usuario->undoMoves++;
                     }
+                    usuario->score+= matriz[i][j+1];
                     matriz[i][j] = 0;
                     valoresReservados[i][j+1] = 1;
                     cont++;
@@ -369,6 +384,8 @@ int jogarparaDireita(int **matriz, Mat valores, User *usuario){
                 }else if(matriz[i][j+1] == 256){
                     usuario->undoMoves++;
                 }
+                usuario->score+= matriz[i][j+1];
+
                 matriz[i][j] = 0;
                 valoresReservados[i][j+1] = 1;
                 i = 0;
@@ -415,6 +432,10 @@ int jogarparaEsquerda(int **matriz, Mat valores, User *usuario){
                 if(matriz[i][j] != 0 && matriz[i][j-1] == 0){
                     matriz[i][j-1] = matriz[i][j];
                     matriz[i][j] = 0;
+                    if(valoresReservados[i][j] != 0 && valoresReservados[i][j-1] == 0){
+                        valoresReservados[i][j-1] = valoresReservados[i][j];
+                        valoresReservados[i][j] = 0;
+                    }
                     cont++;
                 }else if(matriz[i][j] == matriz[i][j-1] && matriz[i][j] != 0 && valoresReservados[i][j] == 0 && valoresReservados[i][j-1] == 0){
                     matriz[i][j-1] = matriz[i][j] * 2;
@@ -423,6 +444,7 @@ int jogarparaEsquerda(int **matriz, Mat valores, User *usuario){
                     }else if(matriz[i][j-1] == 256){
                         usuario->undoMoves++;
                     }
+                    usuario->score+= matriz[i][j-1];
                     matriz[i][j] = 0;
                     valoresReservados[i][j-1] = 1;
                     cont++;
@@ -434,6 +456,8 @@ int jogarparaEsquerda(int **matriz, Mat valores, User *usuario){
                 }else if(matriz[i][j-1] == 256){
                     usuario->undoMoves++;
                 }
+                usuario->score+= matriz[i][j-1];
+
                 matriz[i][j] = 0;
                 valoresReservados[i][j-1] = 1;
                 i = 0;
