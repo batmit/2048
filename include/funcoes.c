@@ -184,8 +184,8 @@ void imprimeMatriz(int **matriz, Mat valores){
     int num[6] = {1, 2, 3, 4, 5, 6};
     int cont = 0;
     printf("     ");
-    for(int i=0; i< (valores.m* 4); i++){
-        if(i % 4 == 0){
+    for(int i=0; i< (valores.m* 8); i++){
+        if(i % 8 == 0){
             printf("%d", num[cont]);
             cont++;
         }else{
@@ -195,8 +195,8 @@ void imprimeMatriz(int **matriz, Mat valores){
     }
 
     printf("\n   "TAB_TL);
-    for(int i=1; i< (valores.m* 4); i++){
-        if(i % 4 == 0){
+    for(int i=1; i< (valores.m* 8); i++){
+        if(i % 8 == 0){
             printf(TAB_TJ);
         }else{
             printf(TAB_HOR);
@@ -211,7 +211,7 @@ void imprimeMatriz(int **matriz, Mat valores){
         printf(" %c ", letras[i]);
         for(int j =0; j< valores.m; j++){
 
-            printf(TAB_VER);
+            printf(TAB_VER " ");
             
             impressaoPersonalizada(matriz[i][j]);
             
@@ -221,8 +221,8 @@ void imprimeMatriz(int **matriz, Mat valores){
         if(i < valores.n - 1){
             printf("\n   ");
             printf(TAB_ML);
-            for(int z = 1; z < (valores.m)*4 ; z++){
-                if(z % 4 == 0){
+            for(int z = 1; z < (valores.m)*8 ; z++){
+                if(z % 8 == 0){
                     printf(TAB_ML);
                 }else{
                     printf(TAB_HOR);
@@ -235,8 +235,8 @@ void imprimeMatriz(int **matriz, Mat valores){
 
     }
     printf("\n   "TAB_BL);
-    for(int i=1; i< (valores.m*4); i++){
-        if(i % 4 == 0){
+    for(int i=1; i< (valores.m*8); i++){
+        if(i % 8 == 0){
             printf(TAB_BJ);
         }else{
             printf(TAB_HOR);
@@ -267,28 +267,40 @@ void impressaoPersonalizada(int n){
 
     if(n == 0){
 
-        printf("   ");
+        printf("      ");
 
     }else if(n == 2){
-        printf(BLACK(BG_WHITE(" 2 ")));
+        printf(BLACK(BG_WHITE("   2  ")));
     }else if(n == 4){
-        printf(BLACK(BG_CYAN(" 4 ")));
+        printf(BLACK(BG_CYAN("   4  ")));
     }else if(n == 8){
-        printf(WHITE(BG_GREEN(" 8 ")));
+        printf(WHITE(BG_GREEN("   8  ")));
     } else if(n == 16){
-        printf(WHITE(BG_MAGENTA(" 16")));
+        printf(WHITE(BG_MAGENTA("  16  ")));
     }else if(n == 32){
-        printf(WHITE(BG_BLACK(" 32")));
+        printf(WHITE(BG_BLACK("  32  ")));
     }else if(n == 64){
-        printf(WHITE(BG_RED(" 64")));
+        printf(WHITE(BG_RED("  64  ")));
     }else if(n == 128){
-        printf(BLACK(BG_GREEN("128")));
+        printf(BLACK(BG_GREEN("  128 ")));
     }else if(n == 256 ){
-        printf(WHITE(BG_CYAN("256")));
+        printf(WHITE(BG_CYAN("  256 ")));
     }else if(n == 512){
-        printf(BLUE(BG_RED("512")));
+        printf(BLUE(BG_RED("  512 ")));
+    }else if(n == 1024){
+        printf(" %d ", n);
+    }else if(n == 2048){
+        printf(" %d ", n);
+
+    }else if(n == 4096){
+        printf(" %d ", n);
+
+    }else if(n == 8192){
+        printf(" %d ", n);
+
     }else{
         printf("%d", n);
+
     }
 
 }
