@@ -265,6 +265,7 @@ void inicializaMatriz(int **matriz, Mat valores, int valor){
 
 void impressaoPersonalizada(int n){
 
+
     if(n == 0){
 
         printf("      ");
@@ -302,5 +303,24 @@ void impressaoPersonalizada(int n){
         printf("%d", n);
 
     }
+
+}
+
+
+
+void clonarMatriz(int **matriz, Mat valores, int **matrizClone){
+
+    for(int i =0; i < valores.n; i++){
+
+        for(int j = 0; j < valores.m; j++){
+            
+            matrizClone[i][j] = matriz[i][j];
+
+        }
+
+    }
+
+    
+
 
 }

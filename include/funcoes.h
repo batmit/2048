@@ -35,10 +35,10 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN);
 void imprimeCabecalho(User cabecalho);
 int posicoesLivres(int **matriz, Mat valores, int **posicoesLivresMat);
 int sorteiaN(int **matriz, Mat valores, int **posicoesLivresMat);
-int jogarparaCima(int**mat, Mat valores, User *usuario);
-int jogarparaBaixo(int **matriz, Mat valores, User *usuario);
-int jogarparaDireita(int **matriz, Mat valores, User *usuario);
-int jogarparaEsquerda(int **matriz, Mat valores, User *usuario);
+int jogarparaCima(int**mat, Mat valores, User *usuario, int printar);
+int jogarparaBaixo(int **matriz, Mat valores, User *usuario, int printar);
+int jogarparaDireita(int **matriz, Mat valores, User *usuario, int printar);
+int jogarparaEsquerda(int **matriz, Mat valores, User *usuario, int printar);
 //void salvarMatAtual(int **matriz, Mat valores);
 void trocaPos(int **matriz, Mat valores, char resposta[20]);
 
@@ -50,6 +50,8 @@ void liberaMatriz(int **matriz, int n);
 void imprimeMatriz(int **matriz, Mat valores);
 void inicializaMatriz(int **matriz, Mat valores, int valor);
 void impressaoPersonalizada(int n);
+
+void clonarMatriz(int **matriz, Mat valores, int **matrizClone);
 
 //ARQUIVOS
 

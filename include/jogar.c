@@ -11,10 +11,16 @@
 void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
     
     
-    int **posicoesLivresMat, sair = 0;
+    int **posicoesLivresMat, sair = 0, jogadasInvalidas ;
+
     Mat posicoesLivresStruct = {valores.n*valores.n, 3};
     srand(time(NULL));
-    char comando[20];
+    char comando[20], perdeu[20];
+    User usuarioLixo = {"Lixo", 0, 0, 0};
+    int **matrizClone;
+
+    matrizClone = criaMatriz(valores);
+
 
     posicoesLivresMat = criaMatriz(posicoesLivresStruct);
     inicializaMatriz(posicoesLivresMat, posicoesLivresStruct, 37);
@@ -25,15 +31,64 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
 
     while(1){
 
-        limparTerminal();
+        jogadasInvalidas = 0;
+
+
+
+
+        
+
         //IMPRESSÃO
+        limparTerminal();
         if(sorteiaYN){
             sorteiaN(matriz, valores, posicoesLivresMat);
 
         }
+
         imprimeCabecalho(*usuario);
         printf("\n");
         imprimeMatriz(matriz, valores);
+
+        //VERIFICANDO CONDIÇÕES DE DERROTA
+
+        clonarMatriz(matriz, valores, matrizClone);
+
+        if(jogarparaBaixo(matrizClone, valores, &usuarioLixo, 0) == 1) {
+            jogadasInvalidas++;
+        }
+        clonarMatriz(matriz, valores, matrizClone);
+        if(jogarparaCima(matrizClone, valores, &usuarioLixo, 0) == 1){
+            jogadasInvalidas++;
+        }
+        clonarMatriz(matriz, valores, matrizClone);
+
+        if(jogarparaDireita(matrizClone, valores, &usuarioLixo, 0) == 1){
+            jogadasInvalidas++;
+        }
+        clonarMatriz(matriz, valores, matrizClone);
+
+        if(jogarparaEsquerda(matrizClone, valores, &usuarioLixo, 0) == 1){
+            jogadasInvalidas++;
+        }
+        
+        if(jogadasInvalidas == 4){
+
+            if(usuario->undoMoves == 0 && usuario->trades == 0){
+                printf(BOLD(RED("\nNão há jogadas válidas, você perdeu\n")));    
+                
+                printf(BLACK(BG_RED("Deseja salvar seu jogo?(Sim/Não)\n: ")));
+                scanf("%s", perdeu);
+                sair = 1;
+                break;
+            }            
+            if(usuario->undoMoves > 0){
+                printf(BOLD(BLUE("VOcê ainda pode voltar uma jogada")));
+            }
+            if(usuario->trades > 0){
+                printf(BOLD(BLUE("Você ainda pode fazer uma troca")));
+            }
+                    
+        }
 
         while(1){
 
@@ -43,11 +98,13 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
             if(comando[0] == 'W'){
                 salvarMatAtual(matriz, valores, usuario);
                 sorteiaYN = 1;
-                if(jogarparaCima(matriz, valores, usuario) == 1){
+                if(jogarparaCima(matriz, valores, usuario, 1) == 1){
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
                     imprimeMatriz(matriz, valores);
                 }else{
+
+
                     break;
                 }
             }else if(comando[0] == 'V'){
@@ -58,34 +115,37 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
             }else if(comando[0] == 'A'){
                 salvarMatAtual(matriz, valores, usuario);
                 sorteiaYN = 1;
-                if(jogarparaEsquerda(matriz, valores, usuario) == 1){
+                if(jogarparaEsquerda(matriz, valores, usuario, 1) == 1){
 
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
                     imprimeMatriz(matriz, valores);
                 }else{
+
                     break;
                 }
             }else if(comando[0] == 'S'){
                 salvarMatAtual(matriz, valores, usuario);
                 sorteiaYN = 1;
-                if(jogarparaBaixo(matriz, valores, usuario) == 1){
+                if(jogarparaBaixo(matriz, valores, usuario, 1) == 1){
 
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
                     imprimeMatriz(matriz, valores);
                 }else{
+
                     break;
                 }
             }else if(comando[0] == 'D'){
                 salvarMatAtual(matriz, valores, usuario);
                 sorteiaYN = 1;
-                if(jogarparaDireita(matriz, valores, usuario) == 1){
+                if(jogarparaDireita(matriz, valores, usuario, 1) == 1){
 
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
                     imprimeMatriz(matriz, valores);
                 }else{
+
                     break;
                 }                
             }else if(comando[0] == 'T'){
@@ -107,6 +167,7 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
                 if(usuario->undoMoves > 0){
                     lerDat(matriz, usuario);
                     sorteiaYN = 0;
+
                     break;
 
                 }else{
@@ -129,6 +190,8 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
 
 
 
+
+
                 
         }
 
@@ -140,10 +203,11 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
         }
 
 
+
     }
 
 
-    
+    liberaMatriz(matrizClone, valores.n);
     liberaMatriz(posicoesLivresMat, posicoesLivresStruct.n);
 
 
@@ -231,7 +295,7 @@ int sorteiaN(int **matriz, Mat valores, int **posicoesLivresMat){
 }
 
 
-int jogarparaCima(int **matriz, Mat valores, User *usuario){
+int jogarparaCima(int **matriz, Mat valores, User *usuario, int printar){
 
     int cont = 0;
     int **valoresReservados;
@@ -295,14 +359,17 @@ int jogarparaCima(int **matriz, Mat valores, User *usuario){
     }
     liberaMatriz(valoresReservados, valores.n);
     if (cont == 0){
-        printf(BOLD(RED("Jogada inválida")));
+        if(printar == 1){
+            printf(BOLD(RED("Jogada inválida")));
+
+        }
         return 1;
     }else{
         return 0;
     }
 }
 
-int jogarparaBaixo(int **matriz, Mat valores, User *usuario){
+int jogarparaBaixo(int **matriz, Mat valores, User *usuario, int printar){
 
 
     int cont = 0;
@@ -367,7 +434,10 @@ int jogarparaBaixo(int **matriz, Mat valores, User *usuario){
     }
     liberaMatriz(valoresReservados, valores.n);
     if (cont == 0){
-        printf(BOLD(RED("Jogada inválida")));
+        if(printar == 1){
+            printf(BOLD(RED("Jogada inválida")));
+
+        }
         return 1;
     }else{
         return 0;
@@ -376,7 +446,7 @@ int jogarparaBaixo(int **matriz, Mat valores, User *usuario){
 
 
 
-int jogarparaDireita(int **matriz, Mat valores, User *usuario){
+int jogarparaDireita(int **matriz, Mat valores, User *usuario, int printar){
 
     int cont = 0;
     int **valoresReservados;
@@ -441,14 +511,17 @@ int jogarparaDireita(int **matriz, Mat valores, User *usuario){
     }
     liberaMatriz(valoresReservados, valores.n);
     if (cont == 0){
-        printf(BOLD(RED("Jogada inválida")));
+        if(printar == 1){
+            printf(BOLD(RED("Jogada inválida")));
+
+        }
         return 1;
     }else{
         return 0;
     }
 }
 
-int jogarparaEsquerda(int **matriz, Mat valores, User *usuario){
+int jogarparaEsquerda(int **matriz, Mat valores, User *usuario, int printar){
 
     int cont = 0;
     int **valoresReservados;
@@ -513,7 +586,10 @@ int jogarparaEsquerda(int **matriz, Mat valores, User *usuario){
     }
     liberaMatriz(valoresReservados, valores.n);
     if (cont == 0){
-        printf(BOLD(RED("Jogada inválida")));
+        if(printar == 1){
+            printf(BOLD(RED("Jogada inválida")));
+
+        }
         return 1;
     }else{
         return 0;
