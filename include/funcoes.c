@@ -26,6 +26,29 @@ void limparTerminal(void){
     system("clear");
 }
 
+int verificarSimNao(void){
+    while (1){
+        char saida[10];
+        scanf("%s", saida);
+        int tam = strlen(saida);
+        for(int i=0; i < tam; i++){
+            saida[i] = conversorMM(saida[i]);
+        }
+        
+        if(!strcmp(saida, "SIM")){
+            return 0;
+        } else if(!strcmp(saida, "NãO") || !strcmp(saida, "NAO")){
+            limpar_buffer();
+            return 1;
+        } else{
+            printf(BOLD(RED("\nMensagem inválida")));
+            limpar_buffer();
+        }
+    }
+    
+
+}
+
 //TUDO RELACIONADO AO MENU
 char imprimeMenu(void){
 
@@ -105,8 +128,8 @@ void sairJogo(void){
             limpar_buffer();
             break;
         } else{
-            printf(BOLD(RED("\nMensagem inválida")));
-            limpar_buffer();
+             printf(BOLD(RED("\nMensagem inválida")));
+           limpar_buffer();
         }
     }
     
@@ -151,6 +174,10 @@ Mat novoJogo(void){
     
 }
 
+void Ajuda(void){
+    
+
+}
 
 
 //TUDO RELACIONADO A MATRIZ
@@ -322,5 +349,20 @@ void clonarMatriz(int **matriz, Mat valores, int **matrizClone){
 
     
 
+
+}
+
+int verificaVitoria(int **matriz, Mat valores){
+
+    for(int i = 0; i < valores.n; i++){
+
+        for(int j = 0; j < valores.m; j++){
+            if(matriz[j][j] == 2048){
+                return 0;
+            }
+        }
+
+    }
+    return 1;
 
 }

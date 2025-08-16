@@ -23,6 +23,7 @@ typedef struct{
 char conversorMM(char letra);
 void limpar_buffer(void);
 void limparTerminal(void);
+int verificarSimNao(void);
 
 //menu
 char imprimeMenu(void);
@@ -52,6 +53,7 @@ void inicializaMatriz(int **matriz, Mat valores, int valor);
 void impressaoPersonalizada(int n);
 
 void clonarMatriz(int **matriz, Mat valores, int **matrizClone);
+int verificaVitoria(int **matriz, Mat valores);
 
 //ARQUIVOS
 

@@ -15,7 +15,7 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
 
     Mat posicoesLivresStruct = {valores.n*valores.n, 3};
     srand(time(NULL));
-    char comando[20], perdeu[20];
+    char comando[20];
     User usuarioLixo = {"Lixo", 0, 0, 0};
     int **matrizClone;
 
@@ -77,7 +77,8 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
                 printf(BOLD(RED("\nNão há jogadas válidas, você perdeu\n")));    
                 
                 printf(BLACK(BG_RED("Deseja salvar seu jogo?(Sim/Não)\n: ")));
-                scanf("%s", perdeu);
+                verificarSimNao();
+                //COLOCAR AQUI 1 PARA SIM E 0 PARA NAO
                 sair = 1;
                 break;
             }            
@@ -90,7 +91,27 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
                     
         }
 
-        while(1){
+        //VERIFICANDO CONDIÇÃO DE VITÓRIA
+
+        if(verificaVitoria(matriz, valores) == 0){
+            printf("=======================================================================");
+            printf(BOLD(YELLOW("\n\nMEUS PARABÉNS, VOCÊ GANHOU!\n")));
+            printf("Deseja continuar(Sim, Não)?: ");
+            int verify = verificarSimNao();                
+
+            if(verify == 1){
+                sair =1;
+                break;
+            }else{
+                limparTerminal();
+                imprimeCabecalho(*usuario);
+                printf("\n");
+                imprimeMatriz(matriz, valores);
+            }
+
+        }
+
+        while(!sair){
 
             printf("\n<a, d, s, w> - <u> - <t pos1, pos2>\nV(Voltar ao menu inicial)\n: ");
             fgets(comando, 20, stdin);
