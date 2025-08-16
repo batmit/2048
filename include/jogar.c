@@ -9,6 +9,8 @@
 
 
 void jogo(int **matriz, Mat valores, User *usuario){
+    
+    int sorteiaYN = 1;
     int **posicoesLivresMat, sair = 0;
     Mat posicoesLivresStruct = {valores.n*valores.n, 3};
     srand(time(NULL));
@@ -20,19 +22,27 @@ void jogo(int **matriz, Mat valores, User *usuario){
         sorteiaN(matriz, valores, posicoesLivresMat);
     }
 
+
     while(posicoesLivres(matriz, valores, posicoesLivresMat) != 0){
+
         limparTerminal();
         //IMPRESSÃO
-        sorteiaN(matriz, valores, posicoesLivresMat);
+        if(sorteiaYN){
+            sorteiaN(matriz, valores, posicoesLivresMat);
+
+        }
         imprimeCabecalho(*usuario);
         printf("\n");
         imprimeMatriz(matriz, valores);
 
         while(1){
+
             printf("\n<a, d, s, w> - <u> - <t pos1, pos2>\nV(Voltar ao menu inicial)\n: ");
             fgets(comando, 20, stdin);
             comando[0] = conversorMM(comando[0]);
             if(comando[0] == 'W'){
+                salvarMatAtual(matriz, valores);
+                sorteiaYN = 1;
                 if(jogarparaCima(matriz, valores, usuario) == 1){
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
@@ -41,10 +51,15 @@ void jogo(int **matriz, Mat valores, User *usuario){
                     break;
                 }
             }else if(comando[0] == 'V'){
+                salvarMatAtual(matriz, valores);
+                sorteiaYN = 1;
                 sair = 1;
                 break;
             }else if(comando[0] == 'A'){
+                salvarMatAtual(matriz, valores);
+                sorteiaYN = 1;
                 if(jogarparaEsquerda(matriz, valores, usuario) == 1){
+
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
                     imprimeMatriz(matriz, valores);
@@ -52,7 +67,10 @@ void jogo(int **matriz, Mat valores, User *usuario){
                     break;
                 }
             }else if(comando[0] == 'S'){
+                salvarMatAtual(matriz, valores);
+                sorteiaYN = 1;
                 if(jogarparaBaixo(matriz, valores, usuario) == 1){
+
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
                     imprimeMatriz(matriz, valores);
@@ -60,7 +78,10 @@ void jogo(int **matriz, Mat valores, User *usuario){
                     break;
                 }
             }else if(comando[0] == 'D'){
+                salvarMatAtual(matriz, valores);
+                sorteiaYN = 1;
                 if(jogarparaDireita(matriz, valores, usuario) == 1){
+
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
                     imprimeMatriz(matriz, valores);
@@ -68,11 +89,32 @@ void jogo(int **matriz, Mat valores, User *usuario){
                     break;
                 }                
             }else if(comando[0] == 'T'){
-                printf("T");
-                break;
+                comando[3] = conversorMM(comando[3]);
+                comando[7] = conversorMM(comando[7]);
+                if(comando[1] == ' ' && comando[4] == ',' && comando[5] == ' ' && usuario->trades > 0){
+                    trocaPos(matriz, valores, comando);
+                    sorteiaYN = 0;
+
+                    break;
+
+                }else{
+                    limparTerminal();
+                    printf(BOLD(RED("\nERRO\nJogada inválida\n")));
+                    imprimeMatriz(matriz, valores);
+                }
+                
             }else if(comando[0] == 'U'){
-                printf("U");
-                break;
+                if(usuario->undoMoves > 0){
+                    lerDat(matriz);
+                    sorteiaYN = 0;
+                    break;
+
+                }else{
+                    limparTerminal();
+                    printf(BOLD(RED("\nJogada inválida, você não tem movimentos de volta\n")));
+                    imprimeMatriz(matriz, valores);
+                }
+
             }else{
                 limparTerminal();
                 printf(BOLD(RED("\nERRO\nValor digitado não está na lista de funções\n")));
@@ -88,17 +130,17 @@ void jogo(int **matriz, Mat valores, User *usuario){
 
 
                 
-            }
-
-            if(sair){
-                break;
-            }
-
-
         }
 
 
-        
+
+        if(sair){
+            break;
+        }
+
+
+    }
+
 
     
     liberaMatriz(posicoesLivresMat, posicoesLivresStruct.n);
@@ -475,4 +517,35 @@ int jogarparaEsquerda(int **matriz, Mat valores, User *usuario){
     }else{
         return 0;
     }
+}
+
+void trocaPos(int **matriz, Mat valores, char resposta[20]){
+
+    char vetor[6] = {'A', 'B', 'C', 'D', 'E', 'F'};
+    int m1 = atoi(&resposta[3]);
+    int m2 = atoi(&resposta[7]);
+    int reserva = 0;
+    for(int i =0; i < valores.n; i++){
+
+        for(int j = 0; j < valores.m; j++){
+
+            if(resposta[2] == vetor[i] && resposta[6] == vetor[j]){
+                reserva = matriz[i][m1 - 1];
+                matriz[i][m1 - 1] = matriz[j][m2 -1]; 
+                matriz[j][m2 - 1] = reserva;
+                //printf("DEU %d %d %d %d %d %d", i, m1, j, m2, matriz[i][m1], matriz[j][m2]);
+
+            }
+
+
+        }
+
+    }
+
+    if(reserva == 0){
+        printf(BOLD(RED("\nERRO\nJogada inválida\n")));
+
+    }
+
+    
 }

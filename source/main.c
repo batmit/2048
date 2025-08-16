@@ -6,6 +6,7 @@
 
 int main(){
     int **matriz;
+
     while(1){
         
         char answer = imprimeMenu();
