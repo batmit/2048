@@ -8,9 +8,9 @@
 
 
 
-void jogo(int **matriz, Mat valores, User *usuario){
+void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
     
-    int sorteiaYN = 1;
+    
     int **posicoesLivresMat, sair = 0;
     Mat posicoesLivresStruct = {valores.n*valores.n, 3};
     srand(time(NULL));
@@ -23,7 +23,7 @@ void jogo(int **matriz, Mat valores, User *usuario){
     }
 
 
-    while(posicoesLivres(matriz, valores, posicoesLivresMat) != 0){
+    while(1){
 
         limparTerminal();
         //IMPRESSÃO

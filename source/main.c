@@ -20,7 +20,7 @@ int main(){
                 User usuario_novo = {"New_User", 0, 0, 0};
                 matriz = criaMatriz(choice);
                 inicializaMatriz(matriz, choice, 0);
-                jogo(matriz, choice, &usuario_novo);
+                jogo(matriz, choice, &usuario_novo, 1);
 
 
                 liberaMatriz(matriz, choice.n);
@@ -32,7 +32,7 @@ int main(){
                     matriz = criaMatriz(volta);
                     User usuario_volta = {"New_User", 0, 0, 0};
                     lerDat(matriz, &usuario_volta);
-                    jogo(matriz, volta, &usuario_volta);
+                    jogo(matriz, volta, &usuario_volta, 0);
 
                     liberaMatriz(matriz, tam);
                 }else{
