@@ -39,7 +39,7 @@ int jogarparaCima(int**mat, Mat valores, User *usuario);
 int jogarparaBaixo(int **matriz, Mat valores, User *usuario);
 int jogarparaDireita(int **matriz, Mat valores, User *usuario);
 int jogarparaEsquerda(int **matriz, Mat valores, User *usuario);
-void salvarMatAtual(int **matriz, Mat valores);
+//void salvarMatAtual(int **matriz, Mat valores);
 void trocaPos(int **matriz, Mat valores, char resposta[20]);
 
 
@@ -53,8 +53,8 @@ void impressaoPersonalizada(int n);
 
 //ARQUIVOS
 
-void salvarMatAtual(int **matriz, Mat valores);
-void lerDat(int **matriz);
-
+void salvarMatAtual(int **matriz, Mat valores, User *usuario);
+int lerDat(int **matriz, User *usuario);
+int lerTam(void);
 
 #endif

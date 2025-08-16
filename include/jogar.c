@@ -41,7 +41,7 @@ void jogo(int **matriz, Mat valores, User *usuario){
             fgets(comando, 20, stdin);
             comando[0] = conversorMM(comando[0]);
             if(comando[0] == 'W'){
-                salvarMatAtual(matriz, valores);
+                salvarMatAtual(matriz, valores, usuario);
                 sorteiaYN = 1;
                 if(jogarparaCima(matriz, valores, usuario) == 1){
                     limparTerminal();
@@ -51,12 +51,12 @@ void jogo(int **matriz, Mat valores, User *usuario){
                     break;
                 }
             }else if(comando[0] == 'V'){
-                salvarMatAtual(matriz, valores);
+                salvarMatAtual(matriz, valores, usuario);
                 sorteiaYN = 1;
                 sair = 1;
                 break;
             }else if(comando[0] == 'A'){
-                salvarMatAtual(matriz, valores);
+                salvarMatAtual(matriz, valores, usuario);
                 sorteiaYN = 1;
                 if(jogarparaEsquerda(matriz, valores, usuario) == 1){
 
@@ -67,7 +67,7 @@ void jogo(int **matriz, Mat valores, User *usuario){
                     break;
                 }
             }else if(comando[0] == 'S'){
-                salvarMatAtual(matriz, valores);
+                salvarMatAtual(matriz, valores, usuario);
                 sorteiaYN = 1;
                 if(jogarparaBaixo(matriz, valores, usuario) == 1){
 
@@ -78,7 +78,7 @@ void jogo(int **matriz, Mat valores, User *usuario){
                     break;
                 }
             }else if(comando[0] == 'D'){
-                salvarMatAtual(matriz, valores);
+                salvarMatAtual(matriz, valores, usuario);
                 sorteiaYN = 1;
                 if(jogarparaDireita(matriz, valores, usuario) == 1){
 
@@ -105,7 +105,7 @@ void jogo(int **matriz, Mat valores, User *usuario){
                 
             }else if(comando[0] == 'U'){
                 if(usuario->undoMoves > 0){
-                    lerDat(matriz);
+                    lerDat(matriz, usuario);
                     sorteiaYN = 0;
                     break;
 
@@ -135,6 +135,7 @@ void jogo(int **matriz, Mat valores, User *usuario){
 
 
         if(sair){
+            salvarMatAtual(matriz, valores, usuario);
             break;
         }
 
@@ -549,3 +550,5 @@ void trocaPos(int **matriz, Mat valores, char resposta[20]){
 
     
 }
+
+

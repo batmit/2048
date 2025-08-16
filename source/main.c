@@ -25,6 +25,24 @@ int main(){
 
                 liberaMatriz(matriz, choice.n);
                 break;
+            case 'J':
+                int tam = lerTam();
+                if(tam){
+                    Mat volta = {tam, tam};
+                    matriz = criaMatriz(volta);
+                    User usuario_volta = {"New_User", 0, 0, 0};
+                    lerDat(matriz, &usuario_volta);
+                    jogo(matriz, volta, &usuario_volta);
+
+                    liberaMatriz(matriz, tam);
+                }else{
+                    limparTerminal();
+                    printf("\nERRO\nVocê ainda não tem um jogo iniciado");
+                }
+
+
+
+                break;
             default:
                 break;
         }
