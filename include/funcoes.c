@@ -175,8 +175,21 @@ Mat novoJogo(void){
 }
 
 void Ajuda(void){
-    
+    char lixo;
+    limparTerminal();
+    printf(BOLD("\n\nO jogo\n"));
+    printf("O 2048 clássico é jogado em um tabuleiro de 4 x 4, com peças numéricas que deslizam suavemente quando o jogador as move em um dos quatro sentidos disponíveis: para cima, para baixo, à esquerda e à direita.");
+    printf("\nA cada movimento, um novo número aparece aleatoriamente em um local vazio no tabuleiro (com um valor de 2 ou 4).");
 
+    printf("\nAs peças (blocos) deslizam o mais longe possível na direção escolhida até que eles sejam interrompidos por qualquer outro bloco ou a borda do tabuleiro. Se duas peças do mesmo número colidem durante a movimentaçao, elas irão se fundir e a posição terá o valor total das duas peças que colidiram.");
+
+    printf("\nA peça resultante não pode se fundir com outra peça novamente na mesma jogada. Blocos com pontuação maior possuem cores diferentes.");
+    printf(BOLD("\nRegras"));
+    printf("\nO jogo começa com duas posições aleatórias do tabuleiro preenchidas. A cada jogada, o jogador deve escolher uma direção (para cima, para baixo, para a esquerda ou para a direita).");
+
+    printf("\nDigite qualquer tecla para continuar... ");
+    scanf("%c", &lixo);
+    limpar_buffer();
 }
 
 

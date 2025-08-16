@@ -30,6 +30,8 @@ char imprimeMenu(void);
 char lerMenu(void);
 void sairJogo(void);
 Mat novoJogo(void);
+void Ajuda(void);
+
 
 //jogo(no arquivo jogar)
 void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN);

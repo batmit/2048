@@ -43,6 +43,10 @@ int main(){
 
 
                 break;
+            
+            case 'A':
+                Ajuda();
+
             default:
                 break;
         }
