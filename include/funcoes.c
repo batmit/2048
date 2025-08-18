@@ -49,6 +49,32 @@ int verificarSimNao(void){
 
 }
 
+void eliminaEspacos(char *comando, int tam){
+
+    for(int i =0; i < tam; i++){
+        if(comando[i] == ' '){
+
+            for(int j = i; j < (tam -1); j++){
+                comando[j] = comando[j+1];
+            }
+            tam--;
+            i = 0;
+        }
+    }
+
+}
+
+void eliminaBarran(char text[27]){
+
+    int tam = strlen(text);
+
+    if(text[tam -1] == '\n'){
+        text[tam -1] = '\0';
+    }
+    
+
+}
+
 //TUDO RELACIONADO AO MENU
 char imprimeMenu(void){
 
@@ -345,6 +371,29 @@ void impressaoPersonalizada(int n){
     }
 
 }
+
+int comparaMatriz(int **matriz1, int **matriz2, Mat valores){
+    int comp =0;
+
+    for(int i =0; i < valores.n; i++){
+        for(int j =0; j < valores.m; j++){
+
+            if(matriz1[i][j] == matriz2[i][j]){
+                comp++;
+            }
+
+        }
+    }
+
+    if(comp == (valores.n * valores.m)){
+        return 0;
+    }else{
+        return 1;
+    }
+
+
+}
+
 
 
 

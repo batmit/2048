@@ -3,10 +3,9 @@
 #include "../include/funcoes.h"
 #include<time.h>
 #include<math.h>
-
+#include<string.h>
 int main(){
     int **matriz;
-
     while(1){
         
         char answer = imprimeMenu();
@@ -46,7 +45,7 @@ int main(){
             
             case 'A':
                 Ajuda();
-
+                break;
             default:
                 break;
         }

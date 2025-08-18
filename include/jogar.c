@@ -75,9 +75,31 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
 
             if(usuario->undoMoves == 0 && usuario->trades == 0){
                 printf(BOLD(RED("\nNão há jogadas válidas, você perdeu\n")));    
-                
-                printf(BLACK(BG_RED("Deseja salvar seu jogo?(Sim/Não)\n: ")));
-                verificarSimNao();
+            
+                printf("Deseja salvar o jogo(Sim, Não)?: ");
+                int verify1 = verificarSimNao();
+
+                if(verify1 == 0){
+                    char nomeArquivo[27];
+                    limpar_buffer();
+                    if(!strcmp(usuario->nome, "New_User")){
+
+                        printf("Digite seu nome de usuário: ");
+                        fgets(usuario->nome, 27, stdin);
+                        eliminaBarran(usuario->nome);
+
+                    }
+                    printf("Digite o nome do arquivo(sem a extensão): ");
+                    fgets(nomeArquivo, 27, stdin);
+                    eliminaBarran(nomeArquivo);
+                    strcat(nomeArquivo, ".txt");
+                    int **comp;
+                    comp = criaMatriz(valores);
+                    lerDat(comp, &usuarioLixo);    
+
+                    salvarJogo(matriz, comp, valores, usuario,nomeArquivo);
+                    liberaMatriz(comp, valores.n);
+                }
                 //COLOCAR AQUI 1 PARA SIM E 0 PARA NAO
                 sair = 1;
                 break;
@@ -96,6 +118,30 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
         if(verificaVitoria(matriz, valores) == 0){
             printf("=======================================================================");
             printf(BOLD(YELLOW("\n\nMEUS PARABÉNS, VOCÊ GANHOU!\n")));
+            printf("Deseja salvar o jogo(Sim, Não)?: ");
+            int verify1 = verificarSimNao();
+
+            if(verify1 == 0){
+                char nomeArquivo[27];
+                if(!strcmp(usuario->nome, "New_User")){
+
+                    printf("Digite seu nome de usuário: ");
+                    fgets(usuario->nome, 27, stdin);
+                    eliminaBarran(usuario->nome);
+
+                }
+                printf("Digite o nome do arquivo(sem a extensão): ");
+                fgets(nomeArquivo, 27, stdin);
+                eliminaBarran(nomeArquivo);
+                strcat(nomeArquivo, ".txt");
+                int **comp;
+                comp = criaMatriz(valores);
+                lerDat(comp, &usuarioLixo);    
+
+                salvarJogo(matriz, comp, valores, usuario,nomeArquivo);
+                liberaMatriz(comp, valores.n);
+            }
+
             printf("Deseja continuar(Sim, Não)?: ");
             int verify = verificarSimNao();                
 
@@ -117,19 +163,18 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
             fgets(comando, 20, stdin);
             comando[0] = conversorMM(comando[0]);
             if(comando[0] == 'W'){
-                salvarMatAtual(matriz, valores, usuario);
                 sorteiaYN = 1;
                 if(jogarparaCima(matriz, valores, usuario, 1) == 1){
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
                     imprimeMatriz(matriz, valores);
                 }else{
+                    salvarMatAtual(matriz, valores, usuario);
 
 
                     break;
                 }
             }else if(comando[0] == 'V'){
-                salvarMatAtual(matriz, valores, usuario);
                 sorteiaYN = 1;
                 sair = 1;
                 break;
@@ -140,20 +185,25 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
 
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
+                    imprimeCabecalho(*usuario);
+                    printf("\n");
                     imprimeMatriz(matriz, valores);
                 }else{
+                    salvarMatAtual(matriz, valores, usuario);
 
                     break;
                 }
             }else if(comando[0] == 'S'){
-                salvarMatAtual(matriz, valores, usuario);
                 sorteiaYN = 1;
                 if(jogarparaBaixo(matriz, valores, usuario, 1) == 1){
 
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
+                    imprimeCabecalho(*usuario);
+                    printf("\n");
                     imprimeMatriz(matriz, valores);
                 }else{
+                    salvarMatAtual(matriz, valores, usuario);
 
                     break;
                 }
@@ -164,42 +214,81 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
 
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
+                    imprimeCabecalho(*usuario);
+                    printf("\n");
                     imprimeMatriz(matriz, valores);
                 }else{
+                    salvarMatAtual(matriz, valores, usuario);
 
                     break;
                 }                
             }else if(comando[0] == 'T'){
-                comando[3] = conversorMM(comando[3]);
-                comando[7] = conversorMM(comando[7]);
-                if(comando[1] == ' ' && comando[4] == ',' && comando[5] == ' ' && usuario->trades > 0){
+                int tam_comando = strlen(comando);
+                eliminaEspacos(comando, tam_comando);
+                comando[1] = conversorMM(comando[1]);
+                comando[4] = conversorMM(comando[4]);
+                char vetLetras[7] = {'A', 'B', 'C', 'D', 'E', 'F'};
+                char vetNum[7] = {'1', '2', '3', '4', '5', '6'};
+
+                if(comando[3] == ',' && usuario->trades > 0 && comando[1] >='A' && comando[1] <= vetLetras[valores.m -1] && comando[4] >= 'A' && comando[4] <= vetLetras[valores.m -1] && comando[2] >= '1' && comando[2] <= vetNum[(valores.m -1)] && comando[5] >= '1' && comando[5] <= vetNum[(valores.m -1)]){
+                    salvarMatAtual(matriz, valores, usuario);
                     trocaPos(matriz, valores, comando);
                     sorteiaYN = 0;
+                    usuario->trades--;
 
                     break;
 
                 }else{
                     limparTerminal();
+
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
+                    imprimeCabecalho(*usuario);
+                    printf("\n");
                     imprimeMatriz(matriz, valores);
+                    
                 }
                 
             }else if(comando[0] == 'U'){
                 if(usuario->undoMoves > 0){
-                    lerDat(matriz, usuario);
-                    sorteiaYN = 0;
+                    int **matrizComp;
+                    matrizComp = criaMatriz(valores);
+                    lerDat(matrizComp, &usuarioLixo);
 
-                    break;
+                    if(comparaMatriz(matriz, matrizComp, valores)){
+                        lerDat(matriz, usuario);
+                        sorteiaYN = 0;
+                        usuario->undoMoves--;
+                        liberaMatriz(matrizComp, valores.n);
+
+                        break;
+
+                        
+                    }else{
+                        limparTerminal();
+                        printf(BOLD(RED("\nJogada inválida, não existe arquivo salvo com a jogada anterior\n")));
+                        imprimeCabecalho(*usuario);
+                        printf("\n");
+                        imprimeMatriz(matriz, valores);
+                    }
+
+                    liberaMatriz(matrizComp, valores.n);
+
+
+
 
                 }else{
                     limparTerminal();
                     printf(BOLD(RED("\nJogada inválida, você não tem movimentos de volta\n")));
+                    imprimeCabecalho(*usuario);
+                    printf("\n");
                     imprimeMatriz(matriz, valores);
                 }
 
             }else{
                 limparTerminal();
                 printf(BOLD(RED("\nERRO\nValor digitado não está na lista de funções\n")));
+                imprimeCabecalho(*usuario);
+                printf("\n");
                 imprimeMatriz(matriz, valores);
 
 
@@ -620,14 +709,14 @@ int jogarparaEsquerda(int **matriz, Mat valores, User *usuario, int printar){
 void trocaPos(int **matriz, Mat valores, char resposta[20]){
 
     char vetor[6] = {'A', 'B', 'C', 'D', 'E', 'F'};
-    int m1 = atoi(&resposta[3]);
-    int m2 = atoi(&resposta[7]);
+    int m1 = atoi(&resposta[2]);
+    int m2 = atoi(&resposta[5]);
     int reserva = 0;
     for(int i =0; i < valores.n; i++){
 
         for(int j = 0; j < valores.m; j++){
 
-            if(resposta[2] == vetor[i] && resposta[6] == vetor[j]){
+            if(resposta[1] == vetor[i] && resposta[4] == vetor[j]){
                 reserva = matriz[i][m1 - 1];
                 matriz[i][m1 - 1] = matriz[j][m2 -1]; 
                 matriz[j][m2 - 1] = reserva;

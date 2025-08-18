@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include "funcoes.h"
-
+#include <string.h>
 
 void salvarMatAtual(int **matriz, Mat valores, User *usuario){
     FILE *arquivo;
@@ -63,5 +63,35 @@ int lerTam(){
     fclose(arquivo);
     return retorno;
 
+
+}
+
+void salvarJogo(int **matriz, int **ultimaMat ,Mat valores, User *usuario, char NomeArqu[27]){
+
+    FILE *arquivo = fopen(NomeArqu, "w");
+
+    fprintf(arquivo, "%d %d %d\n", valores.m, usuario->undoMoves, usuario->trades);
+    fprintf(arquivo, "%d %s\n", usuario->score, usuario->nome);
+
+    for(int i =0; i < valores.m; i++){
+
+        for(int j = 0; j < valores.n; j++){
+            fprintf(arquivo, "%d ", matriz[i][j]);
+        }
+        fprintf(arquivo, "\n");
+
+    }
+
+    for(int i = 0; i < valores.m; i++){
+
+        for(int j =0; j < valores.n; j++){
+
+            fprintf(arquivo, "%d ", matriz[i][j]);
+
+
+        }
+        fprintf(arquivo, "\n");
+
+    }
 
 }

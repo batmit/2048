@@ -24,6 +24,10 @@ char conversorMM(char letra);
 void limpar_buffer(void);
 void limparTerminal(void);
 int verificarSimNao(void);
+void eliminaEspacos(char *comando, int tam);
+
+void eliminaBarran(char text[27]);
+
 
 //menu
 char imprimeMenu(void);
@@ -53,6 +57,7 @@ void liberaMatriz(int **matriz, int n);
 void imprimeMatriz(int **matriz, Mat valores);
 void inicializaMatriz(int **matriz, Mat valores, int valor);
 void impressaoPersonalizada(int n);
+int comparaMatriz(int **matriz1, int **matriz2, Mat valores);
 
 void clonarMatriz(int **matriz, Mat valores, int **matrizClone);
 int verificaVitoria(int **matriz, Mat valores);
@@ -62,5 +67,7 @@ int verificaVitoria(int **matriz, Mat valores);
 void salvarMatAtual(int **matriz, Mat valores, User *usuario);
 int lerDat(int **matriz, User *usuario);
 int lerTam(void);
+
+void salvarJogo(int **matriz, int **ultimaMat ,Mat valores, User *usuario, char NomeArqu[27]);
 
 #endif
