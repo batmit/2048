@@ -86,7 +86,7 @@ void salvarJogo(int **matriz, int **ultimaMat ,Mat valores, User *usuario, char 
 
         for(int j =0; j < valores.n; j++){
 
-            fprintf(arquivo, "%d ", matriz[i][j]);
+            fprintf(arquivo, "%d ", ultimaMat[i][j]);
 
 
         }

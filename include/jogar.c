@@ -149,6 +149,7 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
                 sair =1;
                 break;
             }else{
+                limpar_buffer();
                 limparTerminal();
                 imprimeCabecalho(*usuario);
                 printf("\n");
@@ -163,65 +164,71 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
             fgets(comando, 20, stdin);
             comando[0] = conversorMM(comando[0]);
             if(comando[0] == 'W'){
-                sorteiaYN = 1;
-                if(jogarparaCima(matriz, valores, usuario, 1) == 1){
+                clonarMatriz(matriz, valores, matrizClone);
+                if(jogarparaCima(matrizClone, valores, &usuarioLixo, 0) == 0){
+                    salvarMatAtual(matriz, valores, usuario);
+                    jogarparaCima(matriz, valores, usuario, 1);
+                    sorteiaYN = 1;
+                    break;
+
+                }else{
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
+                    imprimeCabecalho(*usuario);
+                    printf("\n");
                     imprimeMatriz(matriz, valores);
-                }else{
-                    salvarMatAtual(matriz, valores, usuario);
-
-
-                    break;
                 }
+        
             }else if(comando[0] == 'V'){
-                sorteiaYN = 1;
+                //sorteiaYN = 0;
                 sair = 1;
                 break;
             }else if(comando[0] == 'A'){
-                salvarMatAtual(matriz, valores, usuario);
-                sorteiaYN = 1;
-                if(jogarparaEsquerda(matriz, valores, usuario, 1) == 1){
+                clonarMatriz(matriz, valores, matrizClone);
+                if(jogarparaEsquerda(matrizClone, valores, &usuarioLixo, 1) == 0){
+                    salvarMatAtual(matriz, valores, usuario);
+                    jogarparaEsquerda(matriz, valores, usuario, 1);
+                    sorteiaYN = 1;
+                    break;
 
+                }else{
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
                     imprimeCabecalho(*usuario);
                     printf("\n");
                     imprimeMatriz(matriz, valores);
-                }else{
-                    salvarMatAtual(matriz, valores, usuario);
-
-                    break;
                 }
             }else if(comando[0] == 'S'){
-                sorteiaYN = 1;
-                if(jogarparaBaixo(matriz, valores, usuario, 1) == 1){
+                clonarMatriz(matriz, valores, matrizClone);
+                if(jogarparaBaixo(matrizClone, valores, &usuarioLixo, 1) == 0){
+                    salvarMatAtual(matriz, valores, usuario);
+                    jogarparaBaixo(matriz, valores, usuario, 1);
+                    sorteiaYN = 1;
+                    break;
+
+                }else{
 
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
                     imprimeCabecalho(*usuario);
                     printf("\n");
                     imprimeMatriz(matriz, valores);
-                }else{
-                    salvarMatAtual(matriz, valores, usuario);
-
-                    break;
                 }
             }else if(comando[0] == 'D'){
-                salvarMatAtual(matriz, valores, usuario);
-                sorteiaYN = 1;
-                if(jogarparaDireita(matriz, valores, usuario, 1) == 1){
+                clonarMatriz(matriz, valores, matrizClone);
+                if(jogarparaDireita(matrizClone, valores, &usuarioLixo, 1) == 0){
+                    salvarMatAtual(matriz, valores, usuario);
+                    sorteiaYN = 1;
+                    jogarparaDireita(matriz, valores, usuario, 1);
+                    break;
+                }{
 
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
                     imprimeCabecalho(*usuario);
                     printf("\n");
                     imprimeMatriz(matriz, valores);
-                }else{
-                    salvarMatAtual(matriz, valores, usuario);
-
-                    break;
-                }                
+                }
             }else if(comando[0] == 'T'){
                 int tam_comando = strlen(comando);
                 eliminaEspacos(comando, tam_comando);
@@ -308,7 +315,9 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
 
 
         if(sair){
-            salvarMatAtual(matriz, valores, usuario);
+            //salvarMatAtual(matriz, valores, usuario);  ANALISE SE APENAS TIRANDO ISSO JÁ É SUFICIENTE
+            // VOCÊ ESTÁ QUERENDO SALVAR NO TXT O JOGO ANTERIOR ATRAVES DA PPAGINA MAIN
+            // PENSAR EM QUANDO SAIR DO JOGO DELETAR TUDO DO ARQUIVO BINÁRIO
             break;
         }
 
