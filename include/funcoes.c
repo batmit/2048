@@ -28,7 +28,7 @@ void limparTerminal(void){
 
 int verificarSimNao(void){
     while (1){
-        char saida[10];
+        char saida[100];
         scanf("%s", saida);
         int tam = strlen(saida);
         for(int i=0; i < tam; i++){
@@ -41,7 +41,7 @@ int verificarSimNao(void){
             limpar_buffer();
             return 1;
         } else{
-            printf(BOLD(RED("\nMensagem inválida")));
+            printf(BOLD(RED("\nMensagem inválida\n :")));
             limpar_buffer();
         }
     }
@@ -395,6 +395,19 @@ int comparaMatriz(int **matriz1, int **matriz2, Mat valores){
 }
 
 
+void clonarMatrizBackUp(int **clonarMatrizBackUp, int **matriz, Mat valores){
+
+    for(int i =0; i < valores.m; i++){
+
+        for(int j =0; j < valores.n; j++){
+
+            clonarMatrizBackUp[i][j] = matriz[i][j];
+
+        }
+
+    }
+
+}
 
 
 void clonarMatriz(int **matriz, Mat valores, int **matrizClone){

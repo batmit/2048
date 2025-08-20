@@ -47,7 +47,7 @@ int jogarparaBaixo(int **matriz, Mat valores, User *usuario, int printar);
 int jogarparaDireita(int **matriz, Mat valores, User *usuario, int printar);
 int jogarparaEsquerda(int **matriz, Mat valores, User *usuario, int printar);
 //void salvarMatAtual(int **matriz, Mat valores);
-void trocaPos(int **matriz, Mat valores, char resposta[20]);
+void trocaPos(int **matriz, Mat valores, char resposta[20], User *usuario);
 
 
 
@@ -58,6 +58,7 @@ void imprimeMatriz(int **matriz, Mat valores);
 void inicializaMatriz(int **matriz, Mat valores, int valor);
 void impressaoPersonalizada(int n);
 int comparaMatriz(int **matriz1, int **matriz2, Mat valores);
+void clonarMatrizBackUp(int **clonarMatrizBackUp, int **matriz, Mat valores);
 
 void clonarMatriz(int **matriz, Mat valores, int **matrizClone);
 int verificaVitoria(int **matriz, Mat valores);
@@ -67,7 +68,7 @@ int verificaVitoria(int **matriz, Mat valores);
 void salvarMatAtual(int **matriz, Mat valores, User *usuario);
 int lerDat(int **matriz, User *usuario);
 int lerTam(void);
-
+int carregarJogo(int **matriz, User *usuario, char nomeArqu[27]);
 void salvarJogo(int **matriz, int **ultimaMat ,Mat valores, User *usuario, char NomeArqu[27]);
 
 #endif

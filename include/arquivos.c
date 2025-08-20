@@ -70,8 +70,8 @@ void salvarJogo(int **matriz, int **ultimaMat ,Mat valores, User *usuario, char 
 
     FILE *arquivo = fopen(NomeArqu, "w");
 
-    fprintf(arquivo, "%d %d %d\n", valores.m, usuario->undoMoves, usuario->trades);
-    fprintf(arquivo, "%d %s\n", usuario->score, usuario->nome);
+    fprintf(arquivo, "%d %d %d \n", valores.m, usuario->undoMoves, usuario->trades);
+    fprintf(arquivo, "%d %s \n", usuario->score, usuario->nome);
 
     for(int i =0; i < valores.m; i++){
 
@@ -94,4 +94,46 @@ void salvarJogo(int **matriz, int **ultimaMat ,Mat valores, User *usuario, char 
 
     }
 
+    fclose(arquivo);
+
+}
+
+int carregarJogo(int **matriz, User *usuario, char nomeArqu[27]){
+    char lixo;
+    int tamAqui;
+    int **mat2;
+    FILE *arquivo = fopen(nomeArqu, "rb");
+    fscanf(arquivo, "%d %d %d", &tamAqui, &usuario->undoMoves, &usuario->trades);
+    fscanf(arquivo, "%d %s", &usuario->score, usuario->nome);
+
+    for(int i =0; i < tamAqui; i++){
+
+        for(int j =0; j < tamAqui; j++){
+
+            fscanf(arquivo, "%d ", &matriz[i][j]);
+
+        }
+        //fscanf(arquivo, "%c", &lixo);
+
+    }
+    Mat valoresAqui = {tamAqui, tamAqui};
+    mat2 = criaMatriz(valoresAqui);
+
+    for(int i =0; i < tamAqui; i++){
+
+        for(int j =0; j < tamAqui; j++){
+
+            fscanf(arquivo, "%d ", &mat2[i][j]);
+
+        }
+        fscanf(arquivo, "%c", &lixo);
+
+    }
+
+    salvarMatAtual(mat2, valoresAqui, usuario);
+
+    fclose(arquivo);
+    liberaMatriz(mat2, tamAqui);
+    return tamAqui;
+    
 }

@@ -239,7 +239,7 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
 
                 if(comando[3] == ',' && usuario->trades > 0 && comando[1] >='A' && comando[1] <= vetLetras[valores.m -1] && comando[4] >= 'A' && comando[4] <= vetLetras[valores.m -1] && comando[2] >= '1' && comando[2] <= vetNum[(valores.m -1)] && comando[5] >= '1' && comando[5] <= vetNum[(valores.m -1)]){
                     salvarMatAtual(matriz, valores, usuario);
-                    trocaPos(matriz, valores, comando);
+                    trocaPos(matriz, valores, comando, usuario);
                     sorteiaYN = 0;
                     usuario->trades--;
 
@@ -315,9 +315,11 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
 
 
         if(sair){
-            //salvarMatAtual(matriz, valores, usuario);  ANALISE SE APENAS TIRANDO ISSO JÁ É SUFICIENTE
+            //salvarMatAtual(matriz, valores, usuario);
+            //  ANALISE SE APENAS TIRANDO ISSO JÁ É SUFICIENTE
             // VOCÊ ESTÁ QUERENDO SALVAR NO TXT O JOGO ANTERIOR ATRAVES DA PPAGINA MAIN
             // PENSAR EM QUANDO SAIR DO JOGO DELETAR TUDO DO ARQUIVO BINÁRIO
+            //imprimeMatriz(matriz, valores);
             break;
         }
 
@@ -715,7 +717,7 @@ int jogarparaEsquerda(int **matriz, Mat valores, User *usuario, int printar){
     }
 }
 
-void trocaPos(int **matriz, Mat valores, char resposta[20]){
+void trocaPos(int **matriz, Mat valores, char resposta[20], User *usuario){
 
     char vetor[6] = {'A', 'B', 'C', 'D', 'E', 'F'};
     int m1 = atoi(&resposta[2]);
@@ -726,9 +728,24 @@ void trocaPos(int **matriz, Mat valores, char resposta[20]){
         for(int j = 0; j < valores.m; j++){
 
             if(resposta[1] == vetor[i] && resposta[4] == vetor[j]){
-                reserva = matriz[i][m1 - 1];
-                matriz[i][m1 - 1] = matriz[j][m2 -1]; 
-                matriz[j][m2 - 1] = reserva;
+                
+                if(matriz[i][m1 - 1] != 0 && matriz[j][m2 - 1] != 0){
+                    reserva = matriz[i][m1 - 1];
+                    matriz[i][m1 - 1] = matriz[j][m2 -1]; 
+                    matriz[j][m2 - 1] = reserva;
+
+
+                }else{
+
+                    printf(BOLD(RED("\nMensagem inválida\n :")));
+                    usuario->trades++;
+
+                    limpar_buffer();
+
+
+                }
+                
+
                 //printf("DEU %d %d %d %d %d %d", i, m1, j, m2, matriz[i][m1], matriz[j][m2]);
 
             }
