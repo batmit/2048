@@ -8,8 +8,7 @@
 
 
 
-void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
-    
+void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN, int *terminou){
     
     int **posicoesLivresMat, sair = 0, jogadasInvalidas ;
 
@@ -33,6 +32,54 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
 
         jogadasInvalidas = 0;
 
+        //VERIFICAR VITÓRIA
+        if(verificaVitoria(matriz, valores) == 0 && *terminou == 0){
+            *terminou = 1;
+
+            printf("=======================================================================");
+            printf(BOLD(YELLOW("\n\nMEUS PARABÉNS, VOCÊ GANHOU!\n")));
+            printf("Deseja salvar o jogo(Sim, Não)?: ");
+            int verify1 = verificarSimNao();
+
+            if(verify1 == 0){
+                limpar_buffer();
+                char nomeArquivo[27];
+                if(!strcmp(usuario->nome, "New_User")){
+
+                    printf("Digite seu nome de usuário: ");
+                    fgets(usuario->nome, 27, stdin);
+                    eliminaBarran(usuario->nome);
+
+                }
+                printf("Digite o nome do arquivo(sem a extensão): ");
+                fgets(nomeArquivo, 27, stdin);
+                eliminaBarran(nomeArquivo);
+                strcat(nomeArquivo, ".txt");
+                int **comp;
+                comp = criaMatriz(valores);
+                lerDat(comp, &usuarioLixo);    
+
+                salvarJogo(matriz, comp, valores, usuario,nomeArquivo);
+                liberaMatriz(comp, valores.n);
+            }
+
+            printf("Deseja continuar(Sim, Não)?: ");
+            int verify = verificarSimNao();                
+
+            if(verify == 1){
+                sair =1;
+                //sorteiaYN =0;
+                break;
+            }else{
+                limpar_buffer();
+                limparTerminal();
+                imprimeCabecalho(*usuario);
+                printf("\n");
+                imprimeMatriz(matriz, valores);
+            }
+
+        }
+
 
 
 
@@ -42,6 +89,11 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
         limparTerminal();
         if(sorteiaYN){
             sorteiaN(matriz, valores, posicoesLivresMat);
+            if(valores.n == 6){
+                //SE FOR 6X6
+                sorteiaN(matriz, valores, posicoesLivresMat);
+
+            }
 
         }
 
@@ -113,50 +165,7 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN){
                     
         }
 
-        //VERIFICANDO CONDIÇÃO DE VITÓRIA
 
-        if(verificaVitoria(matriz, valores) == 0){
-            printf("=======================================================================");
-            printf(BOLD(YELLOW("\n\nMEUS PARABÉNS, VOCÊ GANHOU!\n")));
-            printf("Deseja salvar o jogo(Sim, Não)?: ");
-            int verify1 = verificarSimNao();
-
-            if(verify1 == 0){
-                char nomeArquivo[27];
-                if(!strcmp(usuario->nome, "New_User")){
-
-                    printf("Digite seu nome de usuário: ");
-                    fgets(usuario->nome, 27, stdin);
-                    eliminaBarran(usuario->nome);
-
-                }
-                printf("Digite o nome do arquivo(sem a extensão): ");
-                fgets(nomeArquivo, 27, stdin);
-                eliminaBarran(nomeArquivo);
-                strcat(nomeArquivo, ".txt");
-                int **comp;
-                comp = criaMatriz(valores);
-                lerDat(comp, &usuarioLixo);    
-
-                salvarJogo(matriz, comp, valores, usuario,nomeArquivo);
-                liberaMatriz(comp, valores.n);
-            }
-
-            printf("Deseja continuar(Sim, Não)?: ");
-            int verify = verificarSimNao();                
-
-            if(verify == 1){
-                sair =1;
-                break;
-            }else{
-                limpar_buffer();
-                limparTerminal();
-                imprimeCabecalho(*usuario);
-                printf("\n");
-                imprimeMatriz(matriz, valores);
-            }
-
-        }
 
         while(!sair){
 
@@ -377,6 +386,7 @@ int posicoesLivres(int **matriz, Mat valores, int **posicoesLivresMat){
     return cont;
 }
 
+//FUNÇÃO DE SORTEIO, QUE USA A FUNÇÃO POSIÇÕES LIVRES
 int sorteiaN(int **matriz, Mat valores, int **posicoesLivresMat){
     
     int cont = posicoesLivres(matriz, valores, posicoesLivresMat);

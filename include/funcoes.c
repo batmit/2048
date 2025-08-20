@@ -26,6 +26,7 @@ void limparTerminal(void){
     system("clear");
 }
 
+//Função que verifica se o usuário vai digitar sim ou não corretamente
 int verificarSimNao(void){
     while (1){
         char saida[100];
@@ -394,7 +395,7 @@ int comparaMatriz(int **matriz1, int **matriz2, Mat valores){
 
 }
 
-
+//Passa a matriz para a matriz BackUp na main
 void clonarMatrizBackUp(int **clonarMatrizBackUp, int **matriz, Mat valores){
 
     for(int i =0; i < valores.m; i++){
@@ -432,7 +433,7 @@ int verificaVitoria(int **matriz, Mat valores){
     for(int i = 0; i < valores.n; i++){
 
         for(int j = 0; j < valores.m; j++){
-            if(matriz[j][j] == 2048){
+            if(matriz[i][j] == 2048){
                 return 0;
             }
         }

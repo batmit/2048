@@ -38,7 +38,7 @@ void Ajuda(void);
 
 
 //jogo(no arquivo jogar)
-void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN);
+void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN, int *terminou);
 void imprimeCabecalho(User cabecalho);
 int posicoesLivres(int **matriz, Mat valores, int **posicoesLivresMat);
 int sorteiaN(int **matriz, Mat valores, int **posicoesLivresMat);

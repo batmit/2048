@@ -3,6 +3,7 @@
 #include "funcoes.h"
 #include <string.h>
 
+//Salvo a matriz atual no binário(usado para desfazer movimentos)
 void salvarMatAtual(int **matriz, Mat valores, User *usuario){
     FILE *arquivo;
     arquivo = fopen("atual.dat", "wb");
@@ -27,6 +28,7 @@ void salvarMatAtual(int **matriz, Mat valores, User *usuario){
 
 }
 
+//Para desfazer movimentos, lê o binário
 int lerDat(int **matriz, User *usuario){
     int linhas, colunas, valor;
     FILE *arquivo = fopen("atual.dat", "rb");
@@ -54,6 +56,7 @@ int lerDat(int **matriz, User *usuario){
     return 0;
 }
 
+//Verifica se há um arquivo binário iniciado(para desfazer movimentos)
 int lerTam(){
     int retorno;
     FILE *arquivo = fopen("atual.dat", "rb");
@@ -104,8 +107,8 @@ int carregarJogo(int **matriz, User *usuario, char nomeArqu[27]){
     int **mat2;
     FILE *arquivo = fopen(nomeArqu, "rb");
     fscanf(arquivo, "%d %d %d", &tamAqui, &usuario->undoMoves, &usuario->trades);
-    fscanf(arquivo, "%d %s", &usuario->score, usuario->nome);
-
+    fscanf(arquivo, "%d ", &usuario->score);
+    fgets(usuario->nome, sizeof(usuario->nome), arquivo);
     for(int i =0; i < tamAqui; i++){
 
         for(int j =0; j < tamAqui; j++){
