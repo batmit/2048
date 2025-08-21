@@ -169,44 +169,69 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN, int *terminou
 
         while(!sair){
 
-            printf("\n<a, d, s, w> - <u> - <t pos1, pos2>\nV(Voltar ao menu inicial)\n: ");
+            printf("\n<a, d, s, w> - <u> - <t pos1 pos2>\nV(Voltar ao menu inicial)\n: ");
             fgets(comando, 20, stdin);
             comando[0] = conversorMM(comando[0]);
             if(comando[0] == 'W'){
-                clonarMatriz(matriz, valores, matrizClone);
-                if(jogarparaCima(matrizClone, valores, &usuarioLixo, 0) == 0){
-                    salvarMatAtual(matriz, valores, usuario);
-                    jogarparaCima(matriz, valores, usuario, 1);
-                    sorteiaYN = 1;
-                    break;
+                if(temAlgoDepois(comando)){
+                    clonarMatriz(matriz, valores, matrizClone);
+                    if(jogarparaCima(matrizClone, valores, &usuarioLixo, 0) == 0){
+                        salvarMatAtual(matriz, valores, usuario);
+                        jogarparaCima(matriz, valores, usuario, 1);
+                        sorteiaYN = 1;
+                        break;
+
+                    }else{
+                        limparTerminal();
+                        printf(BOLD(RED("\nERRO\nJogada inválida\n")));
+                        imprimeCabecalho(*usuario);
+                        printf("\n");
+                        imprimeMatriz(matriz, valores);
+                    }
+
 
                 }else{
+
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
                     imprimeCabecalho(*usuario);
                     printf("\n");
                     imprimeMatriz(matriz, valores);
                 }
+
         
             }else if(comando[0] == 'V'){
                 //sorteiaYN = 0;
                 sair = 1;
                 break;
             }else if(comando[0] == 'A'){
-                clonarMatriz(matriz, valores, matrizClone);
-                if(jogarparaEsquerda(matrizClone, valores, &usuarioLixo, 1) == 0){
-                    salvarMatAtual(matriz, valores, usuario);
-                    jogarparaEsquerda(matriz, valores, usuario, 1);
-                    sorteiaYN = 1;
-                    break;
 
+                if(temAlgoDepois(comando)){
+                    clonarMatriz(matriz, valores, matrizClone);
+                    if(jogarparaEsquerda(matrizClone, valores, &usuarioLixo, 1) == 0){
+                        salvarMatAtual(matriz, valores, usuario);
+                        jogarparaEsquerda(matriz, valores, usuario, 1);
+                        sorteiaYN = 1;
+                        break;
+
+                    }else{
+                        limparTerminal();
+                        printf(BOLD(RED("\nERRO\nJogada inválida\n")));
+                        imprimeCabecalho(*usuario);
+                        printf("\n");
+                        imprimeMatriz(matriz, valores);
+                    }
                 }else{
+
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
                     imprimeCabecalho(*usuario);
                     printf("\n");
                     imprimeMatriz(matriz, valores);
+
                 }
+
+
             }else if(comando[0] == 'S'){
                 clonarMatriz(matriz, valores, matrizClone);
                 if(jogarparaBaixo(matrizClone, valores, &usuarioLixo, 1) == 0){
@@ -224,24 +249,40 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN, int *terminou
                     imprimeMatriz(matriz, valores);
                 }
             }else if(comando[0] == 'D'){
-                clonarMatriz(matriz, valores, matrizClone);
-                if(jogarparaDireita(matrizClone, valores, &usuarioLixo, 1) == 0){
-                    salvarMatAtual(matriz, valores, usuario);
-                    sorteiaYN = 1;
-                    jogarparaDireita(matriz, valores, usuario, 1);
-                    break;
-                }{
+
+                if(temAlgoDepois(comando)){
+                    clonarMatriz(matriz, valores, matrizClone);
+                    if(jogarparaDireita(matrizClone, valores, &usuarioLixo, 1) == 0){
+                        salvarMatAtual(matriz, valores, usuario);
+                        sorteiaYN = 1;
+                        jogarparaDireita(matriz, valores, usuario, 1);
+                        break;
+                    }else{
+
+                        limparTerminal();
+                        printf(BOLD(RED("\nERRO\nJogada inválida\n")));
+                        imprimeCabecalho(*usuario);
+                        printf("\n");
+                        imprimeMatriz(matriz, valores);
+                    }
+
+
+                }else{
 
                     limparTerminal();
                     printf(BOLD(RED("\nERRO\nJogada inválida\n")));
                     imprimeCabecalho(*usuario);
                     printf("\n");
-                    imprimeMatriz(matriz, valores);
+                    imprimeMatriz(matriz, valores);                  
+
                 }
+
+
             }else if(comando[0] == 'T'){
-                //comando[1] = conversorMM(comando[1]);
-                //comando[3] = conversorMM(comando[3]);
-                if(verificaTrocaPos(comando)){
+                
+                if(temAlgoDepois(comando)){
+
+                    if(verificaTrocaPos(comando)){
                     int tam_comando = strlen(comando);
                     eliminaEspacos(comando, tam_comando);
                     char vetLetras[7] = {'A', 'B', 'C', 'D', 'E', 'F'};
@@ -263,8 +304,23 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN, int *terminou
                         imprimeCabecalho(*usuario);
                         printf("\n");
                         imprimeMatriz(matriz, valores);
-                        printf("%s", comando);
+                        //printf("%s", comando);
                     }
+
+
+                }else{
+                    
+                    limparTerminal();
+
+                    printf(BOLD(RED("\nERRO\nJogada inválidaALI\n")));
+                    imprimeCabecalho(*usuario);
+                    printf("\n");
+                    imprimeMatriz(matriz, valores);
+                   // printf("%s", comando);
+
+
+                }
+
 
                 }else{
                     limparTerminal();
@@ -787,7 +843,6 @@ void trocaPos(int **matriz, Mat valores, char resposta[20], User *usuario){
 }
 
 //VERIFICA SE EXISTE ALGUM ESPAÇO VAZIO APÓS A LETRA SER DIGITADA NA TROCA DE POSIÇÃO
-
 int verificaTrocaPos(char resposta[20]){
 
     char vetLetras[6] = {'A', 'B', 'C', 'D', 'E', 'F'};
@@ -811,6 +866,25 @@ int verificaTrocaPos(char resposta[20]){
 
     return 1;
 
+
+
+}
+
+//Função que verifica se o usuário digitou apenas um caractere ou não
+int temAlgoDepois(char comando[20]){
+    
+    for(int i = 1; comando[i] != '\0'; i++){
+
+        if(comando[i] != ' ' && comando[i] !='\n'){
+
+            return 0;
+
+
+        }
+
+    }
+
+    return 1;
 
 
 }
