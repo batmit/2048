@@ -49,6 +49,8 @@ int jogarparaEsquerda(int **matriz, Mat valores, User *usuario, int printar);
 //void salvarMatAtual(int **matriz, Mat valores);
 void trocaPos(int **matriz, Mat valores, char resposta[20], User *usuario);
 
+int verificaTrocaPos(char resposta[20]);
+
 
 
 //matriz

@@ -102,7 +102,7 @@ void salvarJogo(int **matriz, int **ultimaMat ,Mat valores, User *usuario, char 
 }
 
 int carregarJogo(int **matriz, User *usuario, char nomeArqu[27]){
-    char lixo;
+    //char lixo;
     int tamAqui;
     int **mat2;
     FILE *arquivo = fopen(nomeArqu, "rb");
@@ -129,7 +129,7 @@ int carregarJogo(int **matriz, User *usuario, char nomeArqu[27]){
             fscanf(arquivo, "%d ", &mat2[i][j]);
 
         }
-        fscanf(arquivo, "%c", &lixo);
+        //fscanf(arquivo, "%c", &lixo);
 
     }
 

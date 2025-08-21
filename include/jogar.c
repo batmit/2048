@@ -239,20 +239,32 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN, int *terminou
                     imprimeMatriz(matriz, valores);
                 }
             }else if(comando[0] == 'T'){
-                int tam_comando = strlen(comando);
-                eliminaEspacos(comando, tam_comando);
-                comando[1] = conversorMM(comando[1]);
-                comando[4] = conversorMM(comando[4]);
-                char vetLetras[7] = {'A', 'B', 'C', 'D', 'E', 'F'};
-                char vetNum[7] = {'1', '2', '3', '4', '5', '6'};
+                //comando[1] = conversorMM(comando[1]);
+                //comando[3] = conversorMM(comando[3]);
+                if(verificaTrocaPos(comando)){
+                    int tam_comando = strlen(comando);
+                    eliminaEspacos(comando, tam_comando);
+                    char vetLetras[7] = {'A', 'B', 'C', 'D', 'E', 'F'};
+                    char vetNum[7] = {'1', '2', '3', '4', '5', '6'};
+                    comando[1] = conversorMM(comando[1]);
+                    comando[3] = conversorMM(comando[3]);
+                    if(usuario->trades > 0 && comando[1] >='A' && comando[1] <= vetLetras[valores.m -1] && comando[3] >= 'A' && comando[3] <= vetLetras[valores.m -1] && comando[2] >= '1' && comando[2] <= vetNum[(valores.m -1)] && comando[4] >= '1' && comando[4] <= vetNum[(valores.m -1)]){
+                        salvarMatAtual(matriz, valores, usuario);
+                        trocaPos(matriz, valores, comando, usuario);
+                        sorteiaYN = 0;
+                        usuario->trades--;
 
-                if(comando[3] == ',' && usuario->trades > 0 && comando[1] >='A' && comando[1] <= vetLetras[valores.m -1] && comando[4] >= 'A' && comando[4] <= vetLetras[valores.m -1] && comando[2] >= '1' && comando[2] <= vetNum[(valores.m -1)] && comando[5] >= '1' && comando[5] <= vetNum[(valores.m -1)]){
-                    salvarMatAtual(matriz, valores, usuario);
-                    trocaPos(matriz, valores, comando, usuario);
-                    sorteiaYN = 0;
-                    usuario->trades--;
+                        break;
 
-                    break;
+                    }else{
+                        limparTerminal();
+
+                        printf(BOLD(RED("\nERRO\nJogada inválidaALI\n")));
+                        imprimeCabecalho(*usuario);
+                        printf("\n");
+                        imprimeMatriz(matriz, valores);
+                        printf("%s", comando);
+                    }
 
                 }else{
                     limparTerminal();
@@ -261,8 +273,9 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN, int *terminou
                     imprimeCabecalho(*usuario);
                     printf("\n");
                     imprimeMatriz(matriz, valores);
-                    
+
                 }
+
                 
             }else if(comando[0] == 'U'){
                 if(usuario->undoMoves > 0){
@@ -731,13 +744,13 @@ void trocaPos(int **matriz, Mat valores, char resposta[20], User *usuario){
 
     char vetor[6] = {'A', 'B', 'C', 'D', 'E', 'F'};
     int m1 = atoi(&resposta[2]);
-    int m2 = atoi(&resposta[5]);
+    int m2 = atoi(&resposta[4]);
     int reserva = 0;
     for(int i =0; i < valores.n; i++){
 
         for(int j = 0; j < valores.m; j++){
 
-            if(resposta[1] == vetor[i] && resposta[4] == vetor[j]){
+            if(resposta[1] == vetor[i] && resposta[3] == vetor[j]){
                 
                 if(matriz[i][m1 - 1] != 0 && matriz[j][m2 - 1] != 0){
                     reserva = matriz[i][m1 - 1];
@@ -773,4 +786,31 @@ void trocaPos(int **matriz, Mat valores, char resposta[20], User *usuario){
     
 }
 
+//VERIFICA SE EXISTE ALGUM ESPAÇO VAZIO APÓS A LETRA SER DIGITADA NA TROCA DE POSIÇÃO
 
+int verificaTrocaPos(char resposta[20]){
+
+    char vetLetras[6] = {'A', 'B', 'C', 'D', 'E', 'F'};
+    char vetLetrasM[6] = {'a', 'b', 'c', 'd', 'e', 'f'};
+    //int salva = 0;
+
+    for(int i = 0; resposta[i] != '\0'; i++){
+        
+        for(int j = 0; j < 6; j++){
+
+            if(resposta[i] == vetLetras[j] || resposta[i] == vetLetrasM[j]){
+                if(resposta[i+1] == ' '){
+                    return 0;
+                }
+            }
+
+
+        }
+
+    }
+
+    return 1;
+
+
+
+}

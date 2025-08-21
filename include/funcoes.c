@@ -76,6 +76,8 @@ void eliminaBarran(char text[27]){
 
 }
 
+
+
 //TUDO RELACIONADO AO MENU
 char imprimeMenu(void){
 
