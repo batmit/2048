@@ -73,6 +73,7 @@ int lerTam(){
 
 }
 
+// SALVAR O JOGO NO ARQUIVO
 void salvarJogo(int **matriz, int **ultimaMat ,Mat valores, User *usuario, char NomeArqu[27]){
 
     FILE *arquivo = fopen(NomeArqu, "w");
@@ -105,6 +106,7 @@ void salvarJogo(int **matriz, int **ultimaMat ,Mat valores, User *usuario, char 
 
 }
 
+// CARREGA O JOGO NO ARQUIVO
 int carregarJogo(int **matriz, User *usuario, char nomeArqu[27]){
 
     //char lixo;
@@ -146,7 +148,7 @@ int carregarJogo(int **matriz, User *usuario, char nomeArqu[27]){
     
 }
 
-
+// LE O RANKING
 int rankingDatLer(void){
     char fim;
     int quatro, cinco, seis;
@@ -247,10 +249,11 @@ int rankingDatLer(void){
 
 }
 
-
+// ATUALIZA O RANKING
 int rankingDatAtualizar(User usuario, Mat matrizValues){
 
     int quatro, cinco, seis;
+    // PRIMEIRAMENTE EU LEIO TODOS OS VALORE E COLOCO NUM VETOR NUMÉRICO E NUM VETOR DE STRINGS
     FILE *arquivoLerTudo = fopen("ranking.dat", "rb");
     if(arquivoLerTudo == NULL){
         printf("ERRO");
@@ -279,6 +282,7 @@ int rankingDatAtualizar(User usuario, Mat matrizValues){
     fclose(arquivoLerTudo);
 
     //=================================================================
+    //agora eu crio vetores individuais para cada valor, 4x4, 5x5, 6x6
     FILE *arquivoLer = fopen("ranking.dat", "rb");
     if(arquivoLer == NULL){
         printf("ERRO");

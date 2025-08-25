@@ -7,7 +7,7 @@
 #include<time.h>
 
 
-
+// FUnção do jogo em sí
 void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN, int *terminou){
     
     int **posicoesLivresMat, sair = 0, jogadasInvalidas ;

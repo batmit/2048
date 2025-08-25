@@ -375,6 +375,7 @@ void impressaoPersonalizada(int n){
 
 }
 
+
 int comparaMatriz(int **matriz1, int **matriz2, Mat valores){
     int comp =0;
 
@@ -412,7 +413,7 @@ void clonarMatrizBackUp(int **clonarMatrizBackUp, int **matriz, Mat valores){
 
 }
 
-
+// FUNÇÃO PARA CLONAR MATRIZES
 void clonarMatriz(int **matriz, Mat valores, int **matrizClone){
 
     for(int i =0; i < valores.n; i++){
@@ -430,6 +431,7 @@ void clonarMatriz(int **matriz, Mat valores, int **matrizClone){
 
 }
 
+//VERIFICA CONDIÇÕES DE VITÓRIA
 int verificaVitoria(int **matriz, Mat valores){
 
     for(int i = 0; i < valores.n; i++){
@@ -446,18 +448,3 @@ int verificaVitoria(int **matriz, Mat valores){
 }
 
 
-/* INICIA O ARQUIVO BINÁRIO UTILIZADO PARA CARREGAR O JOGO ATUAL
-void inicializarAtualDat(void){
-
-    int **matriz;
-    User lixo = {"New_User", 0, 0, 0};
-    Mat testando = {6, 6};
-    matriz = criaMatriz(testando);
-    inicializaMatriz(matriz, testando, 0);
-    salvarMatAtual(matriz, testando, &lixo);
-
-
-    liberaMatriz(matriz, 6);
-
-
-}*/
