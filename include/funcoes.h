@@ -61,6 +61,7 @@ void inicializaMatriz(int **matriz, Mat valores, int valor);
 void impressaoPersonalizada(int n);
 int comparaMatriz(int **matriz1, int **matriz2, Mat valores);
 void clonarMatrizBackUp(int **clonarMatrizBackUp, int **matriz, Mat valores);
+//void inicializarAtualDat(void);
 
 void clonarMatriz(int **matriz, Mat valores, int **matrizClone);
 int verificaVitoria(int **matriz, Mat valores);

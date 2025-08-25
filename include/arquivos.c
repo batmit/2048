@@ -60,8 +60,12 @@ int lerDat(int **matriz, User *usuario){
 int lerTam(){
     int retorno;
     FILE *arquivo = fopen("atual.dat", "rb");
+    if(arquivo != NULL){
+        fread(&retorno, sizeof(int), 1, arquivo);
 
-    fread(&retorno, sizeof(int), 1, arquivo);
+    }else{
+        return 0;
+    }
 
     fclose(arquivo);
     return retorno;

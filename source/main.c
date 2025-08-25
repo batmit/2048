@@ -16,7 +16,6 @@ int main(){
     User usuarioLixo = {"New_User", 0, 0, 0};// várias funções pedem usuário por parâmetro, aí eu crio o lixo só pra não atrapalhar
     int arquivoBinario = lerTam();
     if(arquivoBinario){
-
         lerDat(matrizBackUp, &usuarioLixo); 
 
     }
@@ -27,7 +26,7 @@ int main(){
         
         switch (answer){
             case 'R':
-                //salvarMatAtual(matrizBackUp, tamanhoMat, &usuario);
+                salvarMatAtual(matrizBackUp, tamanhoMat, &usuario);
                 sairJogo();
                 break;
             case 'N':
@@ -65,7 +64,7 @@ int main(){
                     posicoesLivresClone = criaMatriz(tamforever);
 
                     //if(posicoesLivres(matrizBackUp, tamforever, posicoesLivresClone) != (tamforever.n*tamforever.n)){
-                        clonarMatrizBackUp(matriz, matrizBackUp, tamforever);
+                    clonarMatrizBackUp(matriz, matrizBackUp, tamforever);
 
                     //}else{
                     //    lerDat(matriz, &usuario);

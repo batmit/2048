@@ -444,3 +444,20 @@ int verificaVitoria(int **matriz, Mat valores){
     return 1;
 
 }
+
+
+/* INICIA O ARQUIVO BINÁRIO UTILIZADO PARA CARREGAR O JOGO ATUAL
+void inicializarAtualDat(void){
+
+    int **matriz;
+    User lixo = {"New_User", 0, 0, 0};
+    Mat testando = {6, 6};
+    matriz = criaMatriz(testando);
+    inicializaMatriz(matriz, testando, 0);
+    salvarMatAtual(matriz, testando, &lixo);
+
+
+    liberaMatriz(matriz, 6);
+
+
+}*/

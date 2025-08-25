@@ -25,6 +25,8 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN, int *terminou
     inicializaMatriz(posicoesLivresMat, posicoesLivresStruct, 37);
     if(posicoesLivres(matriz, valores, posicoesLivresMat) == valores.n*valores.n){
         sorteiaN(matriz, valores, posicoesLivresMat);
+        //salvarMatAtual(matriz, valores, usuario);
+
     }
 
 
@@ -94,6 +96,13 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN, int *terminou
                 sorteiaN(matriz, valores, posicoesLivresMat);
 
             }
+
+        }
+
+        //SE FOR A PRIMEIRA VEZ VAI SALVAR A MATRIZ NO ARQUIVO BINÁRIO
+        if(posicoesLivres(matriz, valores, posicoesLivresMat) == valores.n*valores.n){
+            //sorteiaN(matriz, valores, posicoesLivresMat);
+            salvarMatAtual(matriz, valores, usuario);
 
         }
 
@@ -334,39 +343,50 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN, int *terminou
 
                 
             }else if(comando[0] == 'U'){
-                if(usuario->undoMoves > 0){
-                    int **matrizComp;
-                    matrizComp = criaMatriz(valores);
-                    lerDat(matrizComp, &usuarioLixo);
+                if(temAlgoDepois(comando)){
+                    if(usuario->undoMoves > 0){
+                        int **matrizComp;
+                        matrizComp = criaMatriz(valores);
+                        lerDat(matrizComp, &usuarioLixo);
 
-                    if(comparaMatriz(matriz, matrizComp, valores)){
-                        lerDat(matriz, usuario);
-                        sorteiaYN = 0;
-                        usuario->undoMoves--;
-                        liberaMatriz(matrizComp, valores.n);
+                        if(comparaMatriz(matriz, matrizComp, valores)){
+                            lerDat(matriz, usuario);
+                            sorteiaYN = 0;
+                            usuario->undoMoves--;
+                            liberaMatriz(matrizComp, valores.n);
 
-                        break;
+                            break;
 
                         
+                        }else{
+                            limparTerminal();
+                            printf(BOLD(RED("\nJogada inválida, não existe arquivo salvo com a jogada anterior\n")));
+                            imprimeCabecalho(*usuario);
+                            printf("\n");
+                            imprimeMatriz(matriz, valores);
+                        }
+
+                        liberaMatriz(matrizComp, valores.n);
+
+
+
+
                     }else{
                         limparTerminal();
-                        printf(BOLD(RED("\nJogada inválida, não existe arquivo salvo com a jogada anterior\n")));
+                        printf(BOLD(RED("\nJogada inválida, você não tem movimentos de volta\n")));
                         imprimeCabecalho(*usuario);
                         printf("\n");
                         imprimeMatriz(matriz, valores);
                     }
 
-                    liberaMatriz(matrizComp, valores.n);
-
-
-
-
                 }else{
+
                     limparTerminal();
                     printf(BOLD(RED("\nJogada inválida, você não tem movimentos de volta\n")));
                     imprimeCabecalho(*usuario);
                     printf("\n");
-                    imprimeMatriz(matriz, valores);
+                    imprimeMatriz(matriz, valores); 
+
                 }
 
             }else{
