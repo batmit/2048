@@ -73,5 +73,7 @@ int lerDat(int **matriz, User *usuario);
 int lerTam(void);
 int carregarJogo(int **matriz, User *usuario, char nomeArqu[27]);
 void salvarJogo(int **matriz, int **ultimaMat ,Mat valores, User *usuario, char NomeArqu[27]);
+int rankingDatLer(void);
+int rankingDatAtualizar(User usuario, Mat matrizValues);
 
 #endif

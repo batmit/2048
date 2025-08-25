@@ -80,6 +80,8 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN, int *terminou
                 imprimeMatriz(matriz, valores);
             }
 
+            rankingDatAtualizar(*usuario, valores);
+
         }
 
 
@@ -100,7 +102,7 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN, int *terminou
         }
 
         //SE FOR A PRIMEIRA VEZ VAI SALVAR A MATRIZ NO ARQUIVO BINÁRIO
-        if(posicoesLivres(matriz, valores, posicoesLivresMat) == valores.n*valores.n){
+        if(posicoesLivres(matriz, valores, posicoesLivresMat) == (valores.n*valores.n) -2){
             //sorteiaN(matriz, valores, posicoesLivresMat);
             salvarMatAtual(matriz, valores, usuario);
 
@@ -160,6 +162,7 @@ void jogo(int **matriz, Mat valores, User *usuario, int sorteiaYN, int *terminou
 
                     salvarJogo(matriz, comp, valores, usuario,nomeArquivo);
                     liberaMatriz(comp, valores.n);
+                    rankingDatAtualizar(*usuario, valores);
                 }
                 //COLOCAR AQUI 1 PARA SIM E 0 PARA NAO
                 sair = 1;

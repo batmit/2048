@@ -168,6 +168,9 @@ int main(){
 
 
                 break;
+            case 'M':
+                rankingDatLer();
+                limpar_buffer();
             default:
                 break;
             
