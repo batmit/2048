@@ -1,3 +1,5 @@
+// Daniel Matos Falcão
+//21.1.4008
 #include<stdio.h>
 #include<stdlib.h>
 #include "funcoes.h"

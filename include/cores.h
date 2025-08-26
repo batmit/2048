@@ -1,3 +1,5 @@
+// Daniel Matos Falcão
+//21.1.4008
 #ifndef CORES_H
 #define CORES_H
 

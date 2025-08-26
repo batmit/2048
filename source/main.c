@@ -1,3 +1,5 @@
+// Daniel Matos Falcão
+//21.1.4008
 #include<stdio.h>
 #include<stdlib.h>
 #include "../include/funcoes.h"
@@ -15,6 +17,7 @@ int main(){
     User usuario = {"New_User", 0, 0, 0};
     User usuarioLixo = {"New_User", 0, 0, 0};// várias funções pedem usuário por parâmetro, aí eu crio o lixo só pra não atrapalhar
     int arquivoBinario = lerTam();
+    //Se houver algum valor no arquivo binário que carrega a jogada anterior
     if(arquivoBinario){
         lerDat(matrizBackUp, &usuarioLixo); 
 

@@ -1,3 +1,5 @@
+// Daniel Matos Falcão
+//21.1.4008
 #include<stdio.h>
 #include<stdlib.h>
 #include "funcoes.h"
@@ -150,10 +152,10 @@ void sairJogo(void){
             saida[i] = conversorMM(saida[i]);
         }
         
-        if(!strcmp(saida, "SIM")){
+        if(!strcmp(saida, "SIM") || saida[0] == 'S'){
             printf("\nObrigado por Jogar\nEXIT\n");
             exit(0);
-        } else if(!strcmp(saida, "NãO") || !strcmp(saida, "NAO")){
+        } else if(!strcmp(saida, "NãO") || !strcmp(saida, "NAO") || saida[0] == 'N'){
             limpar_buffer();
             break;
         } else{

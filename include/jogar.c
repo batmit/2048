@@ -1,3 +1,5 @@
+// Daniel Matos Falcão
+//21.1.4008
 #include<stdio.h>
 #include<stdlib.h>
 #include "funcoes.h"
@@ -456,7 +458,7 @@ void imprimeCabecalho(User usuario){
 
 
 }
-
+//Verifica quantas posições livres tem e cria uma matriz
 int posicoesLivres(int **matriz, Mat valores, int **posicoesLivresMat){
     int cont = 0;
     for(int i =0; i<valores.n; i++){
